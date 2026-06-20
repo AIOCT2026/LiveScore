@@ -767,12 +767,12 @@ function updateSaveState() {
 //   }
 // ═══════════════════════════════════════════
 const FIREBASE_CONFIG = {
-  apiKey:            'AIzaSyDJApMnk5mug9o6p4bUPP60NaREI_xrLCo',             // ← paste from Firebase config
-  authDomain:        'livescoresd2026.firebaseapp.com',
-  projectId:         'livescoresd2026',
-  storageBucket:      'livescoresd2026.firebasestorage.app',
-  messagingSenderId: '841306741398',
-  appId:             '1:841306741398:web:cf3c8506df9c657ab400b7',
+  apiKey:            'YOUR-API-KEY',             // ← paste from Firebase config
+  authDomain:        'YOUR-PROJECT.firebaseapp.com',
+  projectId:         'YOUR-PROJECT-ID',
+  storageBucket:      'YOUR-PROJECT.appspot.com',
+  messagingSenderId: 'YOUR-SENDER-ID',
+  appId:             'YOUR-APP-ID',
 };
 const FIRESTORE_DOC_PATH = ['livescore', 'sportsday2026'];  // collection, doc id — one shared document
 
@@ -807,6 +807,7 @@ function initCloud() {
   try {
     fbApp = firebase.initializeApp(FIREBASE_CONFIG);
     db = firebase.firestore();
+    try { db.settings({ ignoreUndefinedProperties: true }); } catch (e) {}   // knockout matches have no `no` field
     docRef = db.collection(FIRESTORE_DOC_PATH[0]).doc(FIRESTORE_DOC_PATH[1]);
     cloudReady = true;
     console.log('[cloud] Firebase initialized, attaching listener…');
@@ -842,10 +843,20 @@ function applyRemoteState(state) {
   if (adminSession && document.getElementById('save-state')) updateSaveState();
 }
 
+// Firestore rejects undefined values; drop any undefined keys at every level.
+function cleanForFirestore(v){
+  if(Array.isArray(v)) return v.map(cleanForFirestore);
+  if(v && typeof v==='object'){
+    const out={};
+    for(const k in v){ const cv=cleanForFirestore(v[k]); if(cv!==undefined) out[k]=cv; }
+    return out;
+  }
+  return v;
+}
 async function cloudPush(state) {
   if (!cloudReady || applyingRemote) return;          // don't re-push state we just received
   try {
-    await docRef.set({ data: state, updatedBy: DEVICE_ID, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    await docRef.set({ data: cleanForFirestore(state), updatedBy: DEVICE_ID, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
     cloudError = ''; setCloudOnline(true);
   } catch (e) { cloudError = 'Save failed: ' + (e.message || e); console.error('[cloud] push', e); setCloudOnline(false); }
 }
