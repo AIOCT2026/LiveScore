@@ -253,9 +253,13 @@
   .rr-main{flex:1;min-width:0;}
   .rr-no{font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--green-d);text-transform:uppercase;}
   .rr-teams{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .rr-time{width:104px;flex-shrink:0;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);
+  .rr-time{width:88px;flex-shrink:0;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);
     border-radius:8px;padding:9px 6px;font-family:'Inter';font-size:12.5px;text-align:center;outline:none;}
   .rr-time:focus{border-color:var(--green);}
+  .rr-field{width:104px;flex-shrink:0;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);
+    border-radius:8px;padding:9px 4px;font-family:'Inter';font-size:11.5px;text-align:center;outline:none;cursor:pointer;}
+  .rr-field:focus{border-color:var(--green);}
+  .rr-field.changed{border-color:var(--orange);color:var(--orange-d);font-weight:700;}
   .rr-pending{font-size:12px;color:var(--orange-d);font-weight:700;text-align:center;margin:6px 0 10px;}
   .rr-diff{background:var(--surface2);border-radius:11px;padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.6;}
   .rr-diff b{color:var(--green-d);}
@@ -293,6 +297,10 @@
   .menu-card .mc-tt span{display:block;font-size:12.5px;color:var(--muted);margin-top:1px;}
   .menu-card .mc-arr{color:var(--muted);font-size:18px;}
   .page-head{display:flex;align-items:center;gap:10px;padding:16px 16px 6px;}
+  #screen-about{position:relative;}
+  .about-art{position:absolute;inset:0;z-index:0;pointer-events:none;color:var(--green);opacity:.085;overflow:hidden;}
+  @media(prefers-color-scheme:dark){ .about-art{opacity:.13;} }
+  #screen-about .page-head, #screen-about .page-body{position:relative;z-index:1;}
   .page-back{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:16px;cursor:pointer;flex-shrink:0;}
   .page-title{font-family:'Archivo',sans-serif;font-size:21px;font-weight:800;}
   .page-body{padding:6px 16px 28px;}
@@ -314,6 +322,76 @@
   .map-btn:active{background:var(--green-d);}
   .field textarea{width:100%;background:var(--surface2);border:1.5px solid var(--line);color:var(--ink);border-radius:10px;padding:11px;font-family:'Inter';font-size:14px;outline:none;resize:vertical;min-height:70px;}
   .field textarea:focus{border-color:var(--green);}
+  /* AGENDA */
+  .agenda{padding-top:8px;padding-bottom:4px;}
+  .ag-group{font-family:'Archivo',sans-serif;font-size:15px;font-weight:800;color:var(--ink);padding-bottom:10px;margin-bottom:4px;border-bottom:1.5px solid var(--line);}
+  .ag-item{display:flex;gap:10px;}
+  .ag-time{width:64px;flex-shrink:0;font-size:11px;font-weight:800;color:var(--green-d);text-align:right;padding-top:2px;line-height:1.25;white-space:normal;}
+  .ag-rail{width:12px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+  .ag-rail .d{width:11px;height:11px;border-radius:50%;background:var(--green);margin-top:3px;flex-shrink:0;}
+  .ag-rail .l{flex:1;width:2px;background:var(--line);margin-top:3px;min-height:14px;}
+  .ag-body{flex:1;padding-bottom:16px;}
+  .ag-title{font-size:14px;font-weight:700;line-height:1.3;}
+  .ag-note{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.3;}
+  .ag-edit-row{background:var(--surface2);border:1.5px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;}
+  .ag-edit-section{background:rgba(34,168,94,.07);border-color:var(--green);}
+  .ag-edit-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:8px;letter-spacing:.4px;}
+  .ag-edit-btns button{background:var(--surface);border:1.5px solid var(--line);color:var(--ink);border-radius:7px;width:30px;height:28px;font-size:12px;cursor:pointer;margin-left:4px;}
+  .ag-edit-btns button:disabled{opacity:.4;}
+  .ag-edit-btns .ag-del{color:var(--red);border-color:var(--red);}
+  .ag-inp{width:100%;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 11px;font-family:'Inter';font-size:14px;outline:none;margin-bottom:7px;}
+  .ag-inp:last-child{margin-bottom:0;}
+  .ag-inp:focus{border-color:var(--green);}
+  /* OUR TEAM — org chart */
+  .tm-av,.tm-av-lg{border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--surface2);display:flex;align-items:center;justify-content:center;}
+  .tm-av{width:50px;height:50px;}
+  .tm-av-lg{width:64px;height:64px;border:2px solid rgba(255,255,255,.5);}
+  .tm-av img,.tm-av-lg img{width:100%;height:100%;object-fit:cover;}
+  .tm-av-init{font-weight:800;font-size:17px;color:var(--muted);}
+  .tm-av-init-lg{font-weight:800;font-size:22px;color:var(--muted);}
+  .oc{display:flex;flex-direction:column;align-items:center;}
+  .oc-top{width:100%;display:flex;justify-content:center;}
+  .oc-head{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#173d1e,#0e8f6b);border-radius:16px;padding:14px 18px;color:#fff;max-width:340px;width:100%;cursor:pointer;}
+  .oc-head-info{flex:1;}
+  .oc-head-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#ffd9a8;}
+  .oc-head-nm{font-family:'Archivo',sans-serif;font-size:21px;font-weight:900;line-height:1.1;}
+  .oc-head-rl{font-size:12.5px;opacity:.9;margin-top:1px;}
+  .oc-trunk{width:2px;height:20px;background:var(--line);}
+  .oc-subtop{width:100%;display:flex;justify-content:center;}
+  .oc-subhead{display:flex;align-items:center;gap:12px;background:var(--surface);border:2px solid var(--green);border-radius:14px;padding:11px 16px;max-width:340px;width:100%;cursor:pointer;}
+  .oc-subhead-info{flex:1;}
+  .oc-subhead-nm{font-size:15px;font-weight:800;color:var(--ink);line-height:1.1;}
+  .oc-subhead-rl{font-size:12px;color:var(--green-d);font-weight:600;margin-top:1px;}
+  .oc-tree{width:100%;position:relative;padding-left:20px;}
+  .oc-tree::before{content:"";position:absolute;left:7px;top:0;bottom:18px;width:2px;background:var(--line);}
+  .oc-branch{position:relative;margin-bottom:16px;}
+  .oc-branch::before{content:"";position:absolute;left:-13px;top:26px;width:13px;height:2px;background:var(--line);}
+  .oc-dept{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px;}
+  .oc-dept-head{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:800;letter-spacing:.3px;color:var(--ink);margin-bottom:12px;}
+  .oc-dept-ic{font-size:17px;}
+  .oc-count{margin-left:auto;background:var(--surface2);border-radius:20px;padding:1px 10px;font-size:12px;color:var(--muted);font-weight:700;}
+  .oc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+  .oc-pocs{grid-template-columns:repeat(2,1fr);justify-content:center;margin-bottom:0;}
+  .oc-link{width:2px;height:14px;background:var(--line);margin:0 auto;}
+  .oc-sub{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);margin:12px 0 8px;display:flex;align-items:center;gap:8px;}
+  .oc-sub::after{content:"";flex:1;height:1px;background:var(--line);}
+  .oc-node{background:var(--surface);border:1.5px solid var(--line);border-radius:13px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;}
+  .oc-node[onclick]{cursor:pointer;}
+  .oc-node.poc{border-color:var(--green);border-width:2px;background:rgba(34,168,94,.07);padding-top:15px;}
+  .oc-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:9px;font-weight:800;letter-spacing:1px;padding:2px 9px;border-radius:0 0 8px 8px;}
+  .oc-nm{font-size:12.5px;font-weight:700;text-align:center;overflow-wrap:anywhere;line-height:1.15;}
+  .oc-rl{font-size:10px;color:var(--muted);text-align:center;line-height:1.2;}
+  /* manage list + edit sheet (reused) */
+  .tm-row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--line);cursor:pointer;}
+  .tm-row .tm-av{width:42px;height:42px;}
+  .tm-row .tm-av-init{font-size:15px;}
+  .tm-row-info{flex:1;min-width:0;}
+  .tm-row-name{font-size:14.5px;font-weight:700;}
+  .tm-row-sub{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tm-row-arr{color:var(--muted);font-size:20px;}
+  .tm-photo-edit{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px;}
+  .tm-photo-edit .tm-av-lg{width:90px;height:90px;border:2.5px dashed var(--line);cursor:pointer;}
+  .tm-photo-label{font-size:12.5px;color:var(--muted);}
   .num-hash{font-family:'Archivo';font-weight:800;color:var(--muted);font-size:15px;}
   .num-input{width:58px;text-align:center;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);border-radius:8px;padding:9px 4px;font-family:'Archivo';font-weight:800;font-size:15px;outline:none;}
   .num-input:focus{border-color:var(--green);}
@@ -348,6 +426,11 @@
         <span class="mc-tt"><b>Matches</b><span>Live scores, tables &amp; scorers</span></span>
         <span class="mc-arr">&#8250;</span>
       </button>
+      <button class="menu-card" onclick="goTeam()">
+        <span class="mc-ico">&#128101;</span>
+        <span class="mc-tt"><b>Our team</b><span>Meet the people behind the event</span></span>
+        <span class="mc-arr">&#8250;</span>
+      </button>
       <button class="menu-card accent" onclick="goHowTo()">
         <span class="mc-ico">&#128205;</span>
         <span class="mc-tt"><b>How to go to event</b><span>Directions &amp; venue info</span></span>
@@ -356,7 +439,33 @@
     </div>
   </section>
 
+  <section id="screen-team" class="screen">
+    <div class="page-head"><button class="page-back" onclick="goHome()">&#8249;</button><div class="page-title">Our team</div></div>
+    <div class="page-body" id="team-body"></div>
+  </section>
+
   <section id="screen-about" class="screen">
+    <div class="about-art" aria-hidden="true">
+      <svg width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="sportPat" width="130" height="130" patternUnits="userSpaceOnUse" patternTransform="rotate(8)">
+            <g fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="32" cy="34" r="15"/>
+              <path d="M32 24 l9 6.5 l-3.4 10.6 l-11.2 0 l-3.4 -10.6 z" stroke-width="1.6"/>
+              <circle cx="100" cy="98" r="3" fill="currentColor" stroke="none"/>
+              <path d="M92 30 q8 -8 16 0" stroke-width="1.6"/>
+              <path d="M96 34 q4 -4 8 0" stroke-width="1.6"/>
+              <path d="M20 95 l8 0 m-4 -4 l0 8" stroke-width="1.8"/>
+            </g>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#sportPat)"/>
+        <g fill="none" stroke="currentColor" stroke-width="2" opacity="0.6">
+          <circle cx="-10" cy="20" r="70"/>
+          <path d="M390 0 a60 60 0 0 1 -60 60"/>
+        </g>
+      </svg>
+    </div>
     <div class="page-head"><button class="page-back" onclick="goHome()">&#8249;</button><div class="page-title">About event</div></div>
     <div class="page-body" id="about-body"></div>
   </section>
@@ -551,6 +660,7 @@ function getLogo(teamName) {
 // DATA STORE
 // ═══════════════════════════════════════════
 const PASSWORDS = { male: 'male2025', female: 'female2025' };
+const ADMIN_USERS = { 'admin.m': 'male', 'admin.f': 'female' };   // username → tournament
 let adminSession = null;
 let managerSession = null;   // team name when signed in as that team's captain/manager
 
@@ -720,7 +830,24 @@ let eventInfo = {
   modeBts:  { time: "Nearest station + short walk", note: "Add the nearest BTS/MRT station name and walk time here." },
   modeWalk: { time: "Walking", note: "Best for nearby attendees only." },
   parking:  "Parking available on-site.",
-  contact:  ""
+  contact:  "",
+  agenda: [
+    { header:true, title:"\u26BD Football" },
+    { time:"10.00\u201311.00", title:"Football registration", note:"" },
+    { time:"11.00\u201315.00", title:"Group stage matches", note:"Please refer to the match timetable" },
+    { time:"15.00\u201317.00", title:"Knockout & Grand Final", note:"" },
+    { header:true, title:"\uD83C\uDFAF Fun Activities" },
+    { time:"11.00\u201313.00", title:"Register & receive team ribbons", note:"" },
+    { time:"13.00\u201313.10", title:"Show time", note:"" },
+    { time:"13.10\u201313.20", title:"Ice Breaking: Rock\u2013Paper\u2013Scissors Train", note:"" },
+    { time:"13.20\u201313.30", title:"Aerobic warm-up", note:"" },
+    { time:"13.45\u201313.50", title:"Group team by colour", note:"" },
+    { time:"13.50\u201314.15", title:"Catch me if you can", note:"\u0E27\u0E34\u0E48\u0E07\u0E40\u0E1B\u0E23\u0E35\u0E49\u0E22\u0E27" },
+    { time:"14.30\u201315.00", title:"The hoop link-up", note:"\u0E08\u0E31\u0E1A\u0E21\u0E37\u0E2D\u0E2A\u0E48\u0E07\u0E2B\u0E48\u0E27\u0E07" },
+    { time:"15.15\u201315.45", title:"Sync or Sink", note:"\u0E27\u0E34\u0E48\u0E07\u0E2A\u0E32\u0E21\u0E02\u0E32" },
+    { header:true, title:"\uD83C\uDFC6 Closing" },
+    { time:"16.00\u201317.00", title:"Closing ceremony", note:"" }
+  ]
 };
 
 // Knockout matches (Semi-Final / Final) run 30 min; group matches run 15 min.
@@ -943,6 +1070,7 @@ function initCloud() {
         setCloudOnline(false);
       }
     );
+    subscribeTeam();
   } catch (e) { cloudError = 'Init error: ' + e.message; cloudReady = false; console.error('[cloud]', e); updateSaveState(); }
 }
 
@@ -1194,6 +1322,26 @@ function renderHomeMeta(){
 }
 function renderAbout(){
   const el=document.getElementById('about-body'); if(!el)return;
+  const ag = Array.isArray(eventInfo.agenda) ? eventInfo.agenda : [];
+  // split into groups on header items
+  const groups=[]; let cur={label:'',items:[]};
+  ag.forEach(a=>{
+    if(a.header){ if(cur.label||cur.items.length) groups.push(cur); cur={label:a.title||'',items:[]}; }
+    else cur.items.push(a);
+  });
+  if(cur.label||cur.items.length) groups.push(cur);
+  const agendaHtml = ag.length ? `
+    <div class="sec-label" style="margin-top:18px">Agenda</div>
+    ${groups.map(g=>`
+      <div class="info-card agenda">
+        ${g.label?`<div class="ag-group">${escHtml(g.label)}</div>`:''}
+        ${g.items.map((a,i)=>`
+          <div class="ag-item">
+            <div class="ag-time">${escHtml(a.time||'')}</div>
+            <div class="ag-rail"><div class="d"></div>${i<g.items.length-1?'<div class="l"></div>':''}</div>
+            <div class="ag-body"><div class="ag-title">${escHtml(a.title||'')}</div>${a.note?`<div class="ag-note">${escHtml(a.note)}</div>`:''}</div>
+          </div>`).join('')}
+      </div>`).join('')}` : '';
   el.innerHTML=`<div class="info-card"><p>${escHtml(eventInfo.about)}</p></div>
     <div class="info-card">
       ${eventInfo.dateText?`<div class="info-row"><span class="ir-k">Date</span><span>${escHtml(eventInfo.dateText)}</span></div>`:''}
@@ -1201,7 +1349,8 @@ function renderAbout(){
       <div class="info-row"><span class="ir-k">Divisions</span><span>Male &amp; Female</span></div>
       <div class="info-row"><span class="ir-k">Format</span><span>Group stage + knockouts</span></div>
     </div>
-    <button class="map-btn" onclick="goHowTo()" style="background:var(--surface);color:var(--green-d);border:1.5px solid var(--green)"><span>\uD83D\uDCCD</span> How to go to the venue</button>`;
+    ${agendaHtml}
+    <button class="map-btn" onclick="goHowTo()" style="background:var(--surface);color:var(--green-d);border:1.5px solid var(--green);margin-top:14px"><span>\uD83D\uDCCD</span> How to go to the venue</button>`;
 }
 let howToMode='car';
 function setHowToMode(m){ howToMode=m; renderHowTo(); }
@@ -1447,41 +1596,36 @@ function closeModal(){ document.getElementById('modal').classList.remove('open')
 function onAdminChip(){ adminSession?openAdminMenu():(managerSession?openManagerMenu():openLogin()); }
 function openLogin(){
   openSheet('Sign in',
-    `<div class="field"><label>Role</label><select id="login-role" onchange="loginRoleChange()">
-       <option value="admin">Tournament admin</option>
-       <option value="manager">Team captain / manager</option></select></div>
-     <div id="login-admin-fields">
-       <div class="field"><label>Tournament</label><select id="login-tournament">
-         <option value="male">Male tournament</option><option value="female">Female tournament</option></select></div>
-       <div class="field"><label>Password</label><input type="password" id="login-password" placeholder="Password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
+    `<div class="field"><label>Username</label>
+       <input type="text" id="login-username" placeholder="Username (e.g. admin.m or team username)" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
      </div>
-     <div id="login-mgr-fields" style="display:none">
-       <div class="field"><label>Team username</label><input type="text" id="login-username" placeholder="e.g. starbang" autocomplete="off" autocapitalize="none"></div>
-       <div class="field"><label>Password</label><input type="password" id="login-mpassword" placeholder="Team password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
+     <div class="field"><label>Password</label>
+       <input type="password" id="login-password" placeholder="Password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
      </div>
-     <div id="login-error" class="err" style="display:none">Incorrect details.</div>
+     <div id="login-error" class="err" style="display:none">Incorrect username or password.</div>
      <button class="btn-primary" onclick="doLogin()">Sign in</button>`);
-}
-function loginRoleChange(){
-  const mgr=document.getElementById('login-role').value==='manager';
-  document.getElementById('login-admin-fields').style.display=mgr?'none':'';
-  document.getElementById('login-mgr-fields').style.display=mgr?'':'none';
-  document.getElementById('login-error').style.display='none';
 }
 function showLoginError(msg){ const e=document.getElementById('login-error'); if(e){ e.textContent=msg; e.style.display='block'; } }
 function doLogin(){
-  const role=document.getElementById('login-role').value;
-  if(role==='admin'){
-    const t=document.getElementById('login-tournament').value;
-    const p=document.getElementById('login-password').value.trim();
-    if(PASSWORDS[t] && PASSWORDS[t].toLowerCase()===p.toLowerCase()){ adminSession=t; managerSession=null; saveSession(); closeModal(); renderAll(); showToast(t.toUpperCase()+' admin \u2014 you can now score'); }
-    else showLoginError('Incorrect password.');
-  } else {
-    const team=findTeamByUsername(document.getElementById('login-username').value);
-    const p=(document.getElementById('login-mpassword').value||'').trim();
-    if(team && teamPassword(team)===p){ managerSession=team; adminSession=null; saveSession(); closeModal(); renderAll(); showToast('Signed in as '+team+' manager'); }
-    else showLoginError('Incorrect username or password.');
+  const u=(document.getElementById('login-username').value||'').trim().toLowerCase();
+  const p=(document.getElementById('login-password').value||'').trim();
+  if(!u||!p){ showLoginError('Enter username and password.'); return; }
+  // 1. Admin — username admin.m (male) or admin.f (female) + matching password
+  const adminKey = ADMIN_USERS[u];
+  if(adminKey){
+    if(PASSWORDS[adminKey].toLowerCase()===p.toLowerCase()){
+      adminSession=adminKey; managerSession=null; saveSession(); closeModal(); renderAll();
+      showToast(adminKey.toUpperCase()+' admin \u2014 you can now score'); return;
+    }
+    showLoginError('Incorrect password.'); return;
   }
+  // 2. Team manager — team username + team password
+  const team=findTeamByUsername(u);
+  if(team && teamPassword(team)===p){
+    managerSession=team; adminSession=null; saveSession(); closeModal(); renderAll();
+    showToast('Signed in as '+team+' manager'); return;
+  }
+  showLoginError('Incorrect username or password.');
 }
 function openAdminMenu(){
   openSheet('Admin \u00B7 '+adminSession.toUpperCase(),
@@ -1504,6 +1648,10 @@ function openTeamLogins(){
      Username <b>${teamUsername(t)}</b> &nbsp;\u00B7&nbsp; Password <b>${teamPassword(t)}</b></div>`).join('');
   openSheet('\uD83D\uDD11 Team manager logins',
     `<div class="save-state" style="text-align:left;margin:0 0 12px">Give each captain/manager their team's username and password. They can set their starting lineup and edit their own squad's names & numbers \u2014 but can't score, and can't see other teams' controls.</div>
+     <div class="rr-setlabel">Admin logins</div>
+     <div class="rr-logitem"><div class="rr-logmeta">Male admin</div>Username <b>admin.m</b> &nbsp;\u00B7&nbsp; Password <b>${PASSWORDS.male}</b></div>
+     <div class="rr-logitem"><div class="rr-logmeta">Female admin</div>Username <b>admin.f</b> &nbsp;\u00B7&nbsp; Password <b>${PASSWORDS.female}</b></div>
+     <div class="rr-setlabel">Team managers</div>
      ${rows}
      <button class="btn-secondary" onclick="openAdminMenu()">\u2190 Back</button>`);
 }
@@ -1535,13 +1683,14 @@ function openEventEditor(){
      <div class="rr-setlabel">Extra</div>
      <div class="field"><label>Parking & drop-off</label>${tx('ev-parking',e.parking)}</div>
      <div class="field"><label>Event contact (optional)</label>${ip('ev-contact',e.contact,'name / phone')}</div>
+     <button class="btn-secondary" style="margin-bottom:10px" onclick="openAgendaEditor()">\uD83D\uDDD3 Manage agenda (${(e.agenda||[]).length})</button>
      <button class="btn-primary" onclick="saveEventEditor()">Save event info</button>
      <button class="btn-secondary" onclick="openAdminMenu()">\u2190 Back</button>`);
 }
 function saveEventEditor(){
   const v=id=>{ const el=document.getElementById(id); return el?el.value:''; };
   const lat=parseFloat(v('ev-lat')), lng=parseFloat(v('ev-lng'));
-  eventInfo={
+  eventInfo=Object.assign({}, eventInfo, {
     about:v('ev-about').trim(), dateText:v('ev-date').trim(),
     venueName:v('ev-vname').trim()||eventInfo.venueName, venueAddress:v('ev-vaddr').trim(),
     lat: isNaN(lat)?eventInfo.lat:lat, lng: isNaN(lng)?eventInfo.lng:lng,
@@ -1550,8 +1699,71 @@ function saveEventEditor(){
     modeBts:{time:v('ev-bts-t').trim(),note:v('ev-bts-n').trim()},
     modeWalk:{time:v('ev-walk-t').trim(),note:v('ev-walk-n').trim()},
     parking:v('ev-parking').trim(), contact:v('ev-contact').trim()
-  };
+    // agenda preserved via Object.assign spread of existing eventInfo
+  });
   saveData(); closeModal(); renderAll(); showToast('Event info saved');
+}
+
+// ---- Agenda editor (admin) ----
+let agendaBuf=[];
+function openAgendaEditor(){
+  agendaBuf=(eventInfo.agenda||[]).map(a=> a.header
+    ? {header:true, title:a.title||''}
+    : {time:a.time||'', title:a.title||'', note:a.note||''});
+  renderAgendaEditor();
+}
+function agendaSyncFromDom(){
+  agendaBuf.forEach((a,i)=>{
+    const ti=document.getElementById('ag-ti-'+i);
+    if(ti) a.title=ti.value;
+    if(!a.header){
+      const t=document.getElementById('ag-t-'+i), n=document.getElementById('ag-n-'+i);
+      if(t) a.time=t.value; if(n) a.note=n.value;
+    }
+  });
+}
+function agendaAdd(){ agendaSyncFromDom(); agendaBuf.push({time:'',title:'',note:''}); renderAgendaEditor(); }
+function agendaAddHeader(){ agendaSyncFromDom(); agendaBuf.push({header:true,title:''}); renderAgendaEditor(); }
+function agendaDel(i){ agendaSyncFromDom(); agendaBuf.splice(i,1); renderAgendaEditor(); }
+function agendaMove(i,dir){ agendaSyncFromDom(); const j=i+dir; if(j<0||j>=agendaBuf.length) return; const t=agendaBuf[i]; agendaBuf[i]=agendaBuf[j]; agendaBuf[j]=t; renderAgendaEditor(); }
+function renderAgendaEditor(){
+  const rows=agendaBuf.map((a,i)=>{
+    const btns=`<span class="ag-edit-btns">
+        <button onclick="agendaMove(${i},-1)" ${i===0?'disabled':''}>\u25B2</button>
+        <button onclick="agendaMove(${i},1)" ${i===agendaBuf.length-1?'disabled':''}>\u25BC</button>
+        <button onclick="agendaDel(${i})" class="ag-del">\u2715</button>
+      </span>`;
+    if(a.header){
+      return `<div class="ag-edit-row ag-edit-section">
+        <div class="ag-edit-head"><span>\uD83D\uDCCC Section</span>${btns}</div>
+        <input class="ag-inp" id="ag-ti-${i}" value="${escHtml(a.title||'')}" placeholder="Section name \u2014 e.g. \u26BD Football">
+      </div>`;
+    }
+    return `<div class="ag-edit-row">
+      <div class="ag-edit-head"><span>Item</span>${btns}</div>
+      <input class="ag-inp" id="ag-t-${i}" value="${escHtml(a.time||'')}" placeholder="Time \u2014 e.g. 11.00\u201315.00" autocapitalize="none">
+      <input class="ag-inp" id="ag-ti-${i}" value="${escHtml(a.title||'')}" placeholder="Activity name">
+      <input class="ag-inp" id="ag-n-${i}" value="${escHtml(a.note||'')}" placeholder="Note (optional)">
+    </div>`;
+  }).join('');
+  openSheet('\uD83D\uDDD3 Edit agenda',
+    `<div class="save-state" style="text-align:left;margin:0 0 12px">The day's schedule, shown on the About page. Use <b>sections</b> to group parallel tracks (e.g. Football, Fun Activities). Reorder with \u25B2\u25BC. Syncs to everyone.</div>
+     ${rows||'<div style="color:var(--muted);font-size:14px;padding:8px 0">No agenda items yet.</div>'}
+     <div style="display:flex;gap:8px;margin-bottom:10px">
+       <button class="btn-secondary" style="flex:1;margin:0" onclick="agendaAdd()">\uFF0B Item</button>
+       <button class="btn-secondary" style="flex:1;margin:0" onclick="agendaAddHeader()">\uFF0B Section</button>
+     </div>
+     <button class="btn-primary" onclick="saveAgenda()">Save agenda</button>
+     <button class="btn-secondary" onclick="openEventEditor()">\u2190 Back</button>`);
+}
+function saveAgenda(){
+  agendaSyncFromDom();
+  eventInfo.agenda = agendaBuf
+    .map(a=> a.header
+      ? {header:true, title:(a.title||'').trim()}
+      : {time:(a.time||'').trim(), title:(a.title||'').trim(), note:(a.note||'').trim()})
+    .filter(a=> a.header ? a.title : (a.time||a.title||a.note));
+  saveData(); closeModal(); renderAll(); showToast('Agenda saved');
 }
 function openManagerMenu(){
   openSheet('Team \u00B7 '+managerSession,
@@ -1576,6 +1788,300 @@ function updateAdminChip(){
 // ═══════════════════════════════════════════
 let swapEditor = null;   // working copy; live data is only touched on Confirm
 
+
+// ═══════════════════════════════════════════════════════
+//  OUR TEAM  (seeded roster + per-member overrides in Firestore collection team_sd2026)
+// ═══════════════════════════════════════════════════════
+const TEAM_SEED = [
+  {id:"t1",user:"onnicha.yomdee",nick:"Bokie",dept:"Charity",role:"Charity POC",lead:true},
+  {id:"t2",user:"jatuporn.kerdmee",nick:"Khai",dept:"Charity",role:"Charity POC",lead:true},
+  {id:"t3",user:"nararat.resmontian",nick:"Nara",dept:"Charity",role:"Charity Market staff"},
+  {id:"t4",user:"muhammadriduwan.mali",nick:"One",dept:"Charity",role:"Charity Market staff"},
+  {id:"t5",user:"wuthipol.pistpun",nick:"Nuke",dept:"Charity",role:"Charity Market staff"},
+  {id:"t6",user:"nichanun.jungtrakul",nick:"Ouf",dept:"Charity",role:"Charity Market staff"},
+  {id:"t7",user:"sirikorn.chaiinsun",nick:"",dept:"Charity",role:"Charity Market staff"},
+  {id:"t8",user:"sirawan.khunpet",nick:"",dept:"Charity",role:"Charity Market staff"},
+  {id:"t9",user:"k.thamananthada",nick:"Kris",dept:"Fun Activities",role:"Fun Activities POC",lead:true},
+  {id:"t10",user:"a.chemaeng",nick:"Asi",dept:"Fun Activities",role:"Fun Activities POC",lead:true},
+  {id:"t11",user:"dusit.borisuth",nick:"Dusit",dept:"Fun Activities",role:"Seeking performance and support team during the activities"},
+  {id:"t12",user:"surat.thongman",nick:"B",dept:"Fun Activities",role:"Seeking performance and support team during the activities"},
+  {id:"t13",user:"bibi.fathema.patan",nick:"Bibi",dept:"Fun Activities",role:""},
+  {id:"t14",user:"laila.awae",nick:"Laila",dept:"Fun Activities",role:""},
+  {id:"t15",user:"k.wongbulawat",nick:"",dept:"Fun Activities",role:""},
+  {id:"t16",user:"engfah.intharak",nick:"Engfah",dept:"Fun Activities",role:""},
+  {id:"t17",user:"jirathip.sentiyanon",nick:"Da",dept:"Photographer",role:"Head Coordinator",head:true},
+  {id:"t18",user:"b.aungsutheerakul",nick:"Rin",dept:"Photographer",role:"Photographer, document, logistic, any assigned task"},
+  {id:"t_naday",user:"naday",nick:"Naday",dept:"Photographer",role:"Admin & Web Platform Designer",subhead:true},
+  {id:"t19",user:"suyama.senarath",nick:"Sena",dept:"Registration + Food & Beverage",role:"Registration & F&B POC",lead:true},
+  {id:"t20",user:"thao.b.le",nick:"",dept:"Registration + Food & Beverage",role:""},
+  {id:"t21",user:"muop.thi",nick:"",dept:"Registration + Food & Beverage",role:""},
+  {id:"t22",user:"tram.a.vu",nick:"",dept:"Registration + Food & Beverage",role:""},
+  {id:"t23",user:"huan.dang",nick:"",dept:"Registration + Food & Beverage",role:""},
+  {id:"t24",user:"drajat.k.dewo",nick:"Ajat",dept:"Registration + Food & Beverage",role:""},
+  {id:"t38",user:"surya.rachmat",nick:"Surya",dept:"Registration + Food & Beverage",role:""},
+  {id:"t26",user:"patchara.tongarun",nick:"",dept:"Sports",role:"Big Field 7v7: Game Management"},
+  {id:"t27",user:"threerawat.nuchum",nick:"",dept:"Sports",role:"Big Field 7v7: Game Management"},
+  {id:"t28",user:"sarucha.wichianpanya",nick:"",dept:"Sports",role:"Big Field 7v7: Game Management"},
+  {id:"t29",user:"aulia.zahrani",nick:"Aulia",dept:"Sports",role:"Big Field 7v7: Medical"},
+  {id:"t30",user:"safira.l.fasitya",nick:"Fira",dept:"Sports",role:"Big Field 7v7: Medical"},
+  {id:"t31",user:"loan.nguyen",nick:"",dept:"Sports",role:"Small Field 6v6: Medical"},
+  {id:"t32",user:"cheykosal.heng",nick:"K",dept:"Sports",role:"Sports POC",lead:true},
+  {id:"t33",user:"dunya.hengpiya",nick:"Dunya",dept:"Sports",role:"Small Field 6v6: Game Management"},
+  {id:"t34",user:"m.mohamed.zain",nick:"Zain",dept:"Sports",role:"Small Field 6v6: Game Management"},
+  {id:"t35",user:"s.logessathien",nick:"",dept:"Sports",role:"Small Field 6v6: Medical"},
+  {id:"t36",user:"patcharapat.intha",nick:"",dept:"Sports",role:"Small Field 6v6: Medical"}
+];
+const TEAM_COLL = 'team_sd2026';
+const TEAM_DEPTS = ['Sports','Registration + Food & Beverage','Charity','Fun Activities','Photographer'];
+const DEPT_ICON = {
+  'Photographer':'\uD83D\uDCF7', 'Sports':'\u26BD', 'Registration + Food & Beverage':'\uD83D\uDCCB',
+  'Charity':'\uD83C\uDF9F', 'Fun Activities':'\uD83C\uDFAF'
+};
+let teamOverrides = {};   // id -> {nick?, role?, photo?, dept?, deleted?}  (also holds admin-added members)
+let teamUnsub = null;
+
+function subscribeTeam(){
+  if(!db || teamUnsub) return;
+  teamUnsub = db.collection(TEAM_COLL).onSnapshot(snap=>{
+    teamOverrides = {};
+    snap.docs.forEach(d=>{ teamOverrides[d.id] = d.data(); });
+    if(document.getElementById('screen-team').classList.contains('active')) renderTeam();
+  }, e=>console.error('[team]', e));
+}
+
+// merge baked seed with Firestore overrides → final member list
+function teamMembers(){
+  const out = [];
+  const seedIds = new Set();
+  TEAM_SEED.forEach(s=>{
+    seedIds.add(s.id);
+    const ov = teamOverrides[s.id] || {};
+    if(ov.deleted) return;
+    out.push({ id:s.id, user:s.user,
+      nick: ov.nick!==undefined ? ov.nick : s.nick,
+      role: ov.role!==undefined ? ov.role : s.role,
+      dept: ov.dept!==undefined ? ov.dept : s.dept,
+      lead: ov.lead!==undefined ? ov.lead : (s.lead||false),
+      head: ov.head!==undefined ? ov.head : (s.head||false),
+      subhead: ov.subhead!==undefined ? ov.subhead : (s.subhead||false),
+      photo: ov.photo || '' });
+  });
+  // admin-added members (ids not in seed)
+  Object.keys(teamOverrides).forEach(id=>{
+    if(seedIds.has(id)) return;
+    const ov = teamOverrides[id];
+    if(ov.deleted) return;
+    out.push({ id, user:ov.user||'', nick:ov.nick||'', role:ov.role||'', dept:ov.dept||'Photographer', lead:!!ov.lead, head:!!ov.head, subhead:!!ov.subhead, photo:ov.photo||'' });
+  });
+  return out;
+}
+function teamDisplayName(m){ return m.nick || m.user || '—'; }
+function teamInitials(m){ const s=(m.nick||m.user||'?').trim(); return s.slice(0,2).toUpperCase(); }
+function teamAvatar(m, big){
+  const sz = big?'tm-av-lg':'tm-av';
+  return m.photo
+    ? `<div class="${sz}"><img src="${m.photo}" alt=""></div>`
+    : `<div class="${sz} tm-av-init">${escHtml(teamInitials(m))}</div>`;
+}
+
+function goTeam(){ renderTeam(); showScreen('screen-team'); }
+
+function subgroupSports(arr){
+  const g={'Big Field 7v7':[], 'Small Field 6v6':[], 'General':[]};
+  arr.forEach(m=>{
+    const r=(m.role||'').toLowerCase();
+    if(r.includes('7v7')||r.includes('big field')) g['Big Field 7v7'].push(m);
+    else if(r.includes('6v6')||r.includes('small field')) g['Small Field 6v6'].push(m);
+    else g['General'].push(m);
+  });
+  return g;
+}
+function ocNode(m, admin, kind){
+  return `<div class="oc-node ${kind}" ${admin?`onclick="openTeamEdit('${m.id}')"`:''}>
+    ${kind==='poc'?`<div class="oc-badge">POC</div>`:''}
+    ${teamAvatar(m)}
+    <div class="oc-nm">${escHtml(teamDisplayName(m))}</div>
+    ${m.role?`<div class="oc-rl">${escHtml(m.role)}</div>`:''}
+  </div>`;
+}
+function renderTeam(){
+  const el = document.getElementById('team-body'); if(!el) return;
+  const members = teamMembers();
+  const admin = !!adminSession;
+  const heads = members.filter(m=>m.head);
+  if(!members.length){ el.innerHTML = `<div class="info-card"><p>No team members yet.</p></div>`; return; }
+
+  let html = '';
+  if(admin) html += `<button class="btn-primary" style="margin-bottom:16px" onclick="openTeamManage()">\u270E Manage team</button>`;
+
+  const subheads = members.filter(m=>m.subhead && !m.head);
+
+  html += `<div class="oc">`;
+  // ---- top: head coordinator ----
+  if(heads.length){
+    html += `<div class="oc-top">` + heads.map(m=>`
+      <div class="oc-head" ${admin?`onclick="openTeamEdit('${m.id}')"`:''}>
+        ${teamAvatar(m,true)}
+        <div class="oc-head-info">
+          <div class="oc-head-tag">Head coordinator</div>
+          <div class="oc-head-nm">${escHtml(teamDisplayName(m))}</div>
+          <div class="oc-head-rl">${escHtml(m.role||'')}</div>
+        </div>
+      </div>`).join('') + `</div>` + (subheads.length||true ? `<div class="oc-trunk"></div>` : '');
+  }
+  // ---- second level: deputies / cross-event roles (below head) ----
+  if(subheads.length){
+    html += `<div class="oc-subtop">` + subheads.map(m=>`
+      <div class="oc-subhead" ${admin?`onclick="openTeamEdit('${m.id}')"`:''}>
+        ${teamAvatar(m)}
+        <div class="oc-subhead-info">
+          <div class="oc-subhead-nm">${escHtml(teamDisplayName(m))}</div>
+          <div class="oc-subhead-rl">${escHtml(m.role||'')}</div>
+        </div>
+      </div>`).join('') + `</div><div class="oc-trunk"></div>`;
+  }
+
+  // ---- tree of departments (left spine + branch stubs) ----
+  html += `<div class="oc-tree">`;
+  const known = new Set(TEAM_DEPTS);
+  const renderDept = (dept)=>{
+    const inDept = members.filter(m=>m.dept===dept && !m.head && !m.subhead);
+    if(!inDept.length) return '';
+    const leads = inDept.filter(m=>m.lead);
+    const rest  = inDept.filter(m=>!m.lead);
+    let h = `<div class="oc-branch"><div class="oc-dept">
+      <div class="oc-dept-head"><span class="oc-dept-ic">${DEPT_ICON[dept]||'\uD83D\uDC65'}</span> ${escHtml(dept)} <span class="oc-count">${inDept.length}</span></div>`;
+    if(leads.length) h += `<div class="oc-row oc-pocs">${leads.map(m=>ocNode(m,admin,'poc')).join('')}</div>`;
+    if(leads.length && rest.length) h += `<div class="oc-link"></div>`;
+    if(dept==='Sports'){
+      const g = subgroupSports(rest);
+      Object.keys(g).forEach(label=>{
+        const a=g[label]; if(!a.length) return;
+        h += `<div class="oc-sub">${escHtml(label)}</div><div class="oc-row">${a.map(m=>ocNode(m,admin,'mem')).join('')}</div>`;
+      });
+    } else if(rest.length){
+      h += `<div class="oc-row">${rest.map(m=>ocNode(m,admin,'mem')).join('')}</div>`;
+    }
+    return h + `</div></div>`;
+  };
+  TEAM_DEPTS.forEach(dept=>{ html += renderDept(dept); });
+  // catch-all: any member with a department not in TEAM_DEPTS still shows
+  const extraDepts = [...new Set(members.filter(m=>!m.head && !m.subhead && !known.has(m.dept)).map(m=>m.dept))];
+  extraDepts.forEach(dept=>{ html += renderDept(dept); });
+  html += `</div></div>`;
+  el.innerHTML = html;
+}
+
+// ---- Admin: manage list ----
+function openTeamManage(){
+  if(!adminSession){ showToast('Admins only'); return; }
+  const members = teamMembers();
+  const rows = members.map(m=>`
+    <div class="tm-row" onclick="openTeamEdit('${m.id}')">
+      ${teamAvatar(m)}
+      <div class="tm-row-info">
+        <div class="tm-row-name">${escHtml(teamDisplayName(m))}</div>
+        <div class="tm-row-sub">${escHtml(m.dept)}${m.role?' \u00B7 '+escHtml(m.role):''}</div>
+      </div>
+      <span class="tm-row-arr">\u203A</span>
+    </div>`).join('');
+  openSheet('\uD83D\uDC65 Manage team',
+    `<div class="save-state" style="text-align:left;margin:0 0 12px">Tap a person to edit their nickname, role, or photo. Changes sync to everyone.</div>
+     <button class="btn-primary" style="margin-bottom:12px" onclick="openTeamEdit('__new__')">\uFF0B Add team member</button>
+     ${rows}
+     <button class="btn-secondary" onclick="closeModal()">Done</button>`);
+}
+
+// ---- Admin: edit one member ----
+let teamPhotoBuf = null;
+function openTeamEdit(id){
+  if(!adminSession){ showToast('Admins only'); return; }
+  teamPhotoBuf = null;
+  const isNew = id==='__new__';
+  const m = isNew ? {id:'',user:'',nick:'',role:'',dept:'Photographer',photo:''}
+                  : teamMembers().find(x=>x.id===id) || {id,user:'',nick:'',role:'',dept:'Photographer',photo:''};
+  const deptOpts = TEAM_DEPTS.map(d=>`<option value="${escHtml(d)}" ${m.dept===d?'selected':''}>${escHtml(d)}</option>`).join('');
+  const rank = m.head ? 'head' : (m.subhead ? 'subhead' : (m.lead ? 'lead' : 'member'));
+  openSheet(isNew?'Add team member':'Edit '+escHtml(teamDisplayName(m)),
+    `<div class="tm-photo-edit">
+       <div class="tm-av-lg" id="tm-edit-av" onclick="document.getElementById('tm-photo-input').click()">
+         ${m.photo?`<img src="${m.photo}" id="tm-edit-img">`:`<span id="tm-edit-init" class="tm-av-init-lg">${escHtml(teamInitials(m)||'+')}</span>`}
+       </div>
+       <input type="file" id="tm-photo-input" accept="image/*" style="display:none" onchange="teamHandlePhoto(this)">
+       <span class="tm-photo-label">Tap photo to ${m.photo?'change':'add'}</span>
+     </div>
+     <div class="field"><label>Nickname</label><input type="text" id="tm-nick" value="${escHtml(m.nick||'')}" placeholder="Display name" maxlength="30"></div>
+     <div class="field"><label>Role</label><input type="text" id="tm-role" value="${escHtml(m.role||'')}" placeholder="e.g. Charity Market staff"></div>
+     <div class="field"><label>Department</label><select id="tm-dept">${deptOpts}</select></div>
+     <div class="field"><label>Position in team</label><select id="tm-rank">
+       <option value="member" ${rank==='member'?'selected':''}>Member</option>
+       <option value="lead" ${rank==='lead'?'selected':''}>Department POC (lead)</option>
+       <option value="subhead" ${rank==='subhead'?'selected':''}>Below head (deputy / cross-event)</option>
+       <option value="head" ${rank==='head'?'selected':''}>Head coordinator (top)</option>
+     </select></div>
+     ${isNew?`<div class="field"><label>Username (optional)</label><input type="text" id="tm-user" placeholder="name.surname" autocapitalize="none"></div>`:''}
+     <input type="hidden" id="tm-id" value="${escHtml(m.id)}">
+     <button class="btn-primary" onclick="saveTeamEdit(${isNew})">Save</button>
+     ${!isNew?`<button class="btn-secondary" style="color:var(--red)" onclick="deleteTeamMember('${m.id}')">Remove from team</button>`:''}
+     <button class="btn-secondary" onclick="openTeamManage()">\u2190 Back</button>`);
+}
+async function teamHandlePhoto(input){
+  const file=input.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=async e=>{
+    const c=await teamCompress(e.target.result, 240, 240, 0.72);
+    teamPhotoBuf=c;
+    const img=document.getElementById('tm-edit-img');
+    const av=document.getElementById('tm-edit-av');
+    if(img){ img.src=c; } else { av.innerHTML=`<img src="${c}" id="tm-edit-img">`; }
+  };
+  r.readAsDataURL(file);
+}
+function teamCompress(dataUrl,maxW,maxH,q){
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const cv=document.createElement('canvas');
+      let w=img.width,h=img.height;
+      if(w>h){ if(w>maxW){h=h*maxW/w;w=maxW;} } else { if(h>maxH){w=w*maxH/h;h=maxH;} }
+      cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
+      res(cv.toDataURL('image/jpeg',q));
+    };
+    img.src=dataUrl;
+  });
+}
+async function saveTeamEdit(isNew){
+  if(!db){ showToast('Cloud not connected'); return; }
+  const nick=(document.getElementById('tm-nick').value||'').trim();
+  const role=(document.getElementById('tm-role').value||'').trim();
+  const dept=document.getElementById('tm-dept').value;
+  const rank=document.getElementById('tm-rank').value;
+  let id=document.getElementById('tm-id').value;
+  // Write fields explicitly (no trimming) — merge:true would otherwise leave a
+  // stale override when a value is changed back to its seed default.
+  const payload = { nick, role, dept, lead: rank==='lead', head: rank==='head', subhead: rank==='subhead' };
+  if(teamPhotoBuf) payload.photo = teamPhotoBuf;
+  if(isNew){
+    id = 'tx_'+Date.now().toString(36);
+    const user=(document.getElementById('tm-user')||{}).value||'';
+    payload.user=user.trim();
+  }
+  try{
+    await db.collection(TEAM_COLL).doc(id).set(payload, {merge:true});
+    showToast('Saved'); openTeamManage();
+  }catch(e){ showToast('Error: '+e.message); }
+}
+async function deleteTeamMember(id){
+  if(!confirm('Remove this person from the team?')) return;
+  const seed = TEAM_SEED.find(s=>s.id===id);
+  try{
+    if(seed) await db.collection(TEAM_COLL).doc(id).set({deleted:true}, {merge:true});  // hide seed member
+    else await db.collection(TEAM_COLL).doc(id).delete();                                // remove added member
+    showToast('Removed'); openTeamManage();
+  }catch(e){ showToast('Error: '+e.message); }
+}
+
+
 function escHtml(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function slotName(es, i){
   const id = es.order[i], mu = swapEditor.mu[id];
@@ -1597,12 +2103,21 @@ function openRearrange(){
 
 function renderRearrange(){
   if(!swapEditor) return;
-  let html = `<div class="save-state" style="text-align:left;margin:0 0 12px">Slide a match \u2191 \u2193 to move it into another time slot \u2014 the time stays with the slot. Or edit a time directly. Nothing is saved until you review and confirm.</div>`;
+  const FIELD_PRESETS = [
+    { label:'Field 1 · 7v7', value:'Field 1 (7v7)' },
+    { label:'Field 2 · 6v6', value:'Field 2 (6v6)' },
+  ];
+  let html = `<div class="save-state" style="text-align:left;margin:0 0 12px">Slide ▲▼ to swap match slots. Edit time, or set the pitch (Field 1 = 7v7, Field 2 = 6v6) — the lineup auto-adjusts. Nothing saves until you confirm.</div>`;
   swapEditor.sets.forEach(es => {
     html += `<div class="rr-setlabel">${es.label}</div>`;
     es.order.forEach((id, i) => {
       const mu = swapEditor.mu[id];
-      const moved = es.origOrder[i] !== id || es.origSlots[i].time !== es.slots[i].time;
+      const fieldChanged = es.slots[i].field !== es.origSlots[i].field;
+      const moved = es.origOrder[i] !== id || es.origSlots[i].time !== es.slots[i].time || fieldChanged;
+      const curVal = es.slots[i].field || '';
+      const known = FIELD_PRESETS.some(p=>p.value===curVal);
+      const opts = (known?'':`<option value="${escHtml(curVal)}" selected>${escHtml(curVal)||'—'}</option>`) +
+        FIELD_PRESETS.map(p=>`<option value="${p.value}" ${curVal===p.value?'selected':''}>${p.label}</option>`).join('');
       html += `<div class="rr-row ${moved?'moved':''}">
         <div class="rr-arrows">
           <button onclick="swapMove('${es.key}',${i},-1)" ${i===0?'disabled':''}>\u25B2</button>
@@ -1612,7 +2127,8 @@ function renderRearrange(){
           <div class="rr-no">${escHtml(slotName(es,i))}</div>
           <div class="rr-teams">${escHtml(mu.home)} <span style="color:var(--muted)">v</span> ${escHtml(mu.away)}</div>
         </div>
-        <input class="rr-time" value="${escHtml(es.slots[i].time||'')}" onchange="swapTime('${es.key}',${i},this.value)">
+        <input class="rr-time" value="${escHtml(es.slots[i].time||'')}" onchange="swapTime('${es.key}',${i},this.value)" placeholder="Time">
+        <select class="rr-field ${fieldChanged?'changed':''}" onchange="swapField('${es.key}',${i},this.value)">${opts}</select>
       </div>`;
     });
   });
@@ -1638,10 +2154,20 @@ function swapTime(key, i, val){
   renderRearrange();
 }
 
+function fieldFormat(field){
+  const m=String(field||'').match(/(\d+)\s*v\s*(\d+)/i);
+  return m ? (m[1]+'v'+m[2]) : '7v7';
+}
+function swapField(key, i, val){
+  const es = swapEditor.sets.find(s => s.key === key);
+  es.slots[i].field = val;   // value is the full field string, e.g. "Field 2 (6v6)"
+  renderRearrange();
+}
+
 function rearrangeDirty(){
   return swapEditor.sets.some(es =>
     es.order.some((id,i) => id !== es.origOrder[i]) ||
-    es.slots.some((sl,i) => sl.time !== es.origSlots[i].time)
+    es.slots.some((sl,i) => sl.time !== es.origSlots[i].time || sl.field !== es.origSlots[i].field)
   );
 }
 
@@ -1651,14 +2177,16 @@ function rearrangeChanges(){
   swapEditor.sets.forEach(es => {
     es.order.forEach((id, i) => {
       const origPos = es.origOrder.indexOf(id);
-      const oldTime = es.origSlots[origPos].time, newTime = es.slots[i].time;
-      const oldField = es.origSlots[origPos].field, newField = es.slots[i].field;
+      const oldTime  = es.origSlots[origPos]?.time,  newTime  = es.slots[i].time;
+      const oldField = es.origSlots[origPos]?.field, newField = es.slots[i].field;
       if (oldTime !== newTime || oldField !== newField || origPos !== i) {
         const mu = swapEditor.mu[id];
+        const fromParts = [oldTime, oldField].filter(Boolean).join(' · ');
+        const toParts   = [newTime, newField].filter(Boolean).join(' · ');
         out.push({
           label: (mu.round ? mu.round + ' \u2014 ' : '') + mu.home + ' v ' + mu.away,
-          from: oldTime + (oldField && oldField!==newField ? ' \u00B7 '+oldField : ''),
-          to:   newTime + (newField && oldField!==newField ? ' \u00B7 '+newField : ''),
+          from: fromParts || '—',
+          to:   toParts   || '—',
         });
       }
     });
@@ -1692,6 +2220,12 @@ function confirmRearrange(){
       m.time = es.slots[i].time;
       if (es.slots[i].field !== undefined) m.field = es.slots[i].field;
       if (es.slots[i].no !== undefined) m.no = es.slots[i].no;
+      // If the format (starter count) changed, drop the lineup so ensureLineup rebuilds to the new size
+      const want = starterCount(m);
+      ['home','away'].forEach(side=>{
+        const ln = m.lineup && m.lineup[side];
+        if (ln && Array.isArray(ln.starters) && ln.starters.length !== want) m.lineup = null;
+      });
     });
     set.arr.length = 0; newArr.forEach(m => set.arr.push(m));
   });
@@ -1702,7 +2236,7 @@ function confirmRearrange(){
   });
   if (scheduleLog.length > 50) scheduleLog.length = 50;
   swapEditor = null;
-  saveData();          // persists order + log, and syncs to all devices
+  saveData();
   renderAll();
   closeModal();
   showToast('Schedule updated');
@@ -1833,7 +2367,7 @@ function renderLineup(m){
   const lock = (managerSession && myTeamHere && m.status!=='upcoming')
     ? `<div class="lu-lock">\u26A0 Match started \u2014 starting lineup is locked. Substitutions only.</div>` : '';
   return `<div class="pitch"><div class="pbox top"></div><div class="pbox bot"></div>${renderHalf(m,'home')}${renderHalf(m,'away')}</div>
-    <div class="lineup-note">${n} v ${n} \u00B7 ${m.field||''}</div>
+    <div class="lineup-note">${escHtml(m.field || (n + ' v ' + n))}</div>
     <div class="bench-wrap">${tools}${lock}<div class="bench-head">Substitutes</div>
       <div class="bench-cols">${renderBenchCol(m,'home')}${renderBenchCol(m,'away')}</div></div>`;
 }
