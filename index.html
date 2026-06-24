@@ -433,6 +433,8 @@
   .upnext-cta button{background:var(--green);color:#fff;border:none;border-radius:9999px;padding:10px 24px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;}
   .upnext-empty{color:var(--muted);font-size:13px;text-align:center;padding:12px 0;}
   .upnext-logo-img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--line);}
+  .upnext-logo-svg{width:40px;height:40px;flex-shrink:0;}
+  .upnext-logo-svg svg{width:40px;height:40px;display:block;}
   .upnext-logo-emoji{font-size:32px;line-height:1;display:block;}
   .upnext-team{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;min-width:0;}
   /* overwrite old .cr size since we now use img/emoji variants */
@@ -442,6 +444,8 @@
   .home-stat-lbl{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
   .home-stat-row{display:flex;align-items:center;gap:12px;padding:6px 0;}
   .home-stat-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1.5px solid var(--line);flex-shrink:0;}
+  .home-stat-logo-svg{width:32px;height:32px;flex-shrink:0;}
+  .home-stat-logo-svg svg{width:32px;height:32px;display:block;}
   .home-stat-info{flex:1;min-width:0;}
   .home-stat-name{display:block;font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .home-stat-sub{display:block;font-size:11px;color:var(--muted);margin-top:1px;}
@@ -1692,10 +1696,12 @@ function renderUpNext(){
       ?'<div class="upnext-sc">'+((m.homeScore??0)+' - '+(m.awayScore??0))+'</div>'
       :'<div class="upnext-vs">vs</div><div class="upnext-time">'+escHtml(m.time||'—')+'</div>';
     var homeLogo=getLogo(m.home);var awayLogo=getLogo(m.away);
-    var useImg=homeLogo.startsWith('data:')||homeLogo.startsWith('http');
-    var homeAv=useImg?'<img src="'+homeLogo+'" class="upnext-logo-img">':'<span class="upnext-logo-emoji">'+homeLogo+'</span>';
-    var awayAv=(getLogo(m.away).startsWith('data:')||getLogo(m.away).startsWith('http'))
-      ?'<img src="'+getLogo(m.away)+'" class="upnext-logo-img">':'<span class="upnext-logo-emoji">'+getLogo(m.away)+'</span>';
+    function avHtml(logo){
+      if(logo.startsWith('<svg')) return '<div class="upnext-logo-svg">'+logo+'</div>';
+      if(logo.startsWith('data:')||logo.startsWith('http')) return '<img src="'+logo+'" class="upnext-logo-img">';
+      return '<span class="upnext-logo-emoji">'+logo+'</span>';
+    }
+    var homeAv=avHtml(homeLogo);var awayAv=avHtml(awayLogo);
     return '<div class="upnext-card" onclick="(function(){goMatches();openMatch(\''+m.id+'\')})()">'+
       tag+
       '<div class="upnext-score">'+
@@ -1712,20 +1718,22 @@ function renderUpNext(){
 
   var html='';
 
-  // Live section: show ALL live matches (same-time)
+  // Live section: show ALL live matches
   if(liveMatches.length){
     html+='<div class="upnext-lbl">&#128250; Live now</div>';
     liveMatches.forEach(function(m){ html+=matchCard(m,true); });
   }
-  // Up next section: show next upcoming (group by same start time)
-  else if(upcoming.length){
+
+  // Up next section: always show next upcoming (even when live matches running)
+  if(upcoming.length){
     var nextTime=upcoming[0].time||'';
     var sameTime=upcoming.filter(function(x){return (x.time||'')===(nextTime);});
-    html+='<div class="upnext-lbl">Up next</div>';
+    html+='<div class="upnext-lbl" style="margin-top:12px">Up next</div>';
     sameTime.forEach(function(m){ html+=matchCard(m,false); });
   }
-  // Fall back: last FT match
-  else if(ftMatches.length){
+
+  // Fall back when nothing live/upcoming: last FT match
+  if(!liveMatches.length&&!upcoming.length&&ftMatches.length){
     html+='<div class="upnext-lbl">Recent match</div>';
     html+=matchCard(ftMatches[ftMatches.length-1],false);
   }
@@ -1735,8 +1743,8 @@ function renderUpNext(){
     var rows=computeStandings(teams,matches);
     if(!rows.length||rows[0].played===0) return '';
     var t=rows[0];
-    var logo=getLogo(t.name);var useImg=logo.startsWith('data:')||logo.startsWith('http');
-    var av=useImg?'<img src="'+logo+'" class="home-stat-logo">':'<span style="font-size:18px">'+logo+'</span>';
+    var logo=getLogo(t.name);
+    var av=logo.startsWith('<svg')?'<div class="home-stat-logo-svg">'+logo+'</div>':logo.startsWith('data:')||logo.startsWith('http')?'<img src="'+logo+'" class="home-stat-logo">':'<span style="font-size:22px">'+logo+'</span>';
     return '<div class="home-stat-row">'+av+
       '<div class="home-stat-info"><span class="home-stat-name">'+escHtml(t.name)+'</span>'+
       '<span class="home-stat-sub">'+escHtml(label)+'</span></div>'+
@@ -1754,8 +1762,8 @@ function renderUpNext(){
   var topStr='';
   if(allGoals.length&&allGoals[0].goals>0){
     var ts=allGoals[0];
-    var tsLogo=getLogo(ts.team);var tsImg=tsLogo.startsWith('data:')||tsLogo.startsWith('http');
-    var tsAv=tsImg?'<img src="'+tsLogo+'" class="home-stat-logo">':'<span style="font-size:18px">'+tsLogo+'</span>';
+    var tsLogo=getLogo(ts.team);
+    var tsAv=tsLogo.startsWith('<svg')?'<div class="home-stat-logo-svg">'+tsLogo+'</div>':tsLogo.startsWith('data:')||tsLogo.startsWith('http')?'<img src="'+tsLogo+'" class="home-stat-logo">':'<span style="font-size:22px">'+tsLogo+'</span>';
     topStr='<div class="home-stat-row">'+tsAv+
       '<div class="home-stat-info"><span class="home-stat-name">'+escHtml(ts.name)+'</span>'+
       '<span class="home-stat-sub">'+escHtml(ts.team)+'</span></div>'+
