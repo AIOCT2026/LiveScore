@@ -1809,9 +1809,9 @@ const TEAM_SEED = [
   {id:"t14",user:"laila.awae",nick:"Laila",dept:"Fun Activities",role:""},
   {id:"t15",user:"k.wongbulawat",nick:"",dept:"Fun Activities",role:""},
   {id:"t16",user:"engfah.intharak",nick:"Engfah",dept:"Fun Activities",role:""},
-  {id:"t17",user:"jirathip.sentiyanon",nick:"Da",dept:"Photographer",role:"Head Coordinator",head:true},
+  {id:"t17",user:"jirathip.sentiyanon",nick:"Da",dept:"Lens & Code",role:"Head Coordinator",head:true},
   {id:"t18",user:"b.aungsutheerakul",nick:"Rin",dept:"Lens & Code",role:"Photographer, document, logistic, any assigned task"},
-  {id:"t_naday",user:"naday",nick:"Naday",dept:"Lens & Code",role:"Admin & Web Platform Designer",subhead:true},
+  {id:"t_naday",user:"naday",nick:"Naday",dept:"Lens & Code",role:"Admin & Web Platform Designer",lead:true},
   {id:"t19",user:"suyama.senarath",nick:"Sena",dept:"Registration + Food & Beverage",role:"Registration & F&B POC",lead:true},
   {id:"t20",user:"thao.b.le",nick:"",dept:"Registration + Food & Beverage",role:""},
   {id:"t21",user:"muop.thi",nick:"",dept:"Registration + Food & Beverage",role:""},
@@ -1834,7 +1834,7 @@ const TEAM_SEED = [
 const TEAM_COLL = 'team_sd2026';
 const TEAM_DEPTS = ['Sports','Registration + Food & Beverage','Charity','Fun Activities','Lens & Code'];
 const DEPT_ICON = {
- 'Lens & Code':'\uD83D\uDCF7', 'Sports':'\u26BD', 'Registration + Food & Beverage':'\uD83D\uDCCB',
+  'Lens & Code':'\uD83D\uDCF7', 'Sports':'\u26BD', 'Registration + Food & Beverage':'\uD83D\uDCCB',
   'Charity':'\uD83C\uDF9F', 'Fun Activities':'\uD83C\uDFAF'
 };
 let teamOverrides = {};   // id -> {nick?, role?, photo?, dept?, deleted?}  (also holds admin-added members)
@@ -1871,7 +1871,7 @@ function teamMembers(){
     if(seedIds.has(id)) return;
     const ov = teamOverrides[id];
     if(ov.deleted) return;
-    out.push({ id, user:ov.user||'', nick:ov.nick||'', role:ov.role||'', dept:ov.dept||'Photographer', lead:!!ov.lead, head:!!ov.head, subhead:!!ov.subhead, photo:ov.photo||'' });
+    out.push({ id, user:ov.user||'', nick:ov.nick||'', role:ov.role||'', dept:ov.dept||'Lens & Code', lead:!!ov.lead, head:!!ov.head, subhead:!!ov.subhead, photo:ov.photo||'' });
   });
   return out;
 }
@@ -1998,8 +1998,8 @@ function openTeamEdit(id){
   if(!adminSession){ showToast('Admins only'); return; }
   teamPhotoBuf = null;
   const isNew = id==='__new__';
-  const m = isNew ? {id:'',user:'',nick:'',role:'',dept:'Photographer',photo:''}
-                  : teamMembers().find(x=>x.id===id) || {id,user:'',nick:'',role:'',dept:'Photographer',photo:''};
+  const m = isNew ? {id:'',user:'',nick:'',role:'',dept:'Lens & Code',photo:''}
+                  : teamMembers().find(x=>x.id===id) || {id,user:'',nick:'',role:'',dept:'Lens & Code',photo:''};
   const deptOpts = TEAM_DEPTS.map(d=>`<option value="${escHtml(d)}" ${m.dept===d?'selected':''}>${escHtml(d)}</option>`).join('');
   const rank = m.head ? 'head' : (m.subhead ? 'subhead' : (m.lead ? 'lead' : 'member'));
   openSheet(isNew?'Add team member':'Edit '+escHtml(teamDisplayName(m)),
