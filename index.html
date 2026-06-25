@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#22a85e" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
 <title>LiveScore · Sports Day 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Archivo+Narrow:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     /* Velocity Grid — clean light, card-first */
@@ -27,6 +27,12 @@
     --card-shadow:0 4px 20px rgba(0,0,0,.05);
     --card-radius:24px;
     --pill:9999px;
+    /* Football accent palette */
+    --fb-blue:#1e51d4;
+    --fb-red:#f22929;
+    --fb-grn:#46f026;
+    --fb-org:#ff5e00;
+    --fb-gld:#ffd700;
   }
   @media(prefers-color-scheme:dark){
     :root{
@@ -48,6 +54,7 @@
     .topbar{box-shadow:0 1px 0 var(--line)!important;}
     .btm-nav{box-shadow:0 -1px 0 var(--line)!important;}
     .fixture,.menu-card,.info-card,.panel-card,.upnext-card{box-shadow:none!important;}
+    .fx-ft{color:#7aef5a!important;background:rgba(70,240,38,.12)!important;}
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;min-height:100vh;}
@@ -60,8 +67,14 @@
   .btm-nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;
     align-items:center;gap:2px;color:var(--muted);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:2px 0;}
   .bn-ico{font-size:19px;line-height:1;padding:4px 16px;border-radius:9999px;transition:background .15s,color .15s;}
-  .btm-nav button.active{color:var(--green-d);}
-  .btm-nav button.active .bn-ico{background:#e7f5ec;color:var(--green-d);}
+  #nav-home.active{color:var(--fb-blue)!important;}
+  #nav-home.active .bn-ico{background:rgba(30,81,212,.12);color:var(--fb-blue)!important;}
+  #nav-matches.active{color:var(--fb-red)!important;}
+  #nav-matches.active .bn-ico{background:rgba(242,41,41,.1);color:var(--fb-red)!important;}
+  #nav-teams.active{color:#00873a!important;}
+  #nav-teams.active .bn-ico{background:rgba(70,240,38,.1);color:#00873a!important;}
+  #nav-info.active{color:var(--fb-org)!important;}
+  #nav-info.active .bn-ico{background:rgba(255,94,0,.1);color:var(--fb-org)!important;}
   .fab{position:fixed;bottom:84px;right:max(16px,calc(50vw - 310px + 16px));
     width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;border:none;
     box-shadow:0 6px 20px rgba(34,168,94,.4);font-size:22px;cursor:pointer;z-index:91;
@@ -78,17 +91,17 @@
     #app{max-width:none;margin:0 0 0 248px;padding:0 36px 48px;min-height:100vh;}
     /* sidebar */
     .side-nav{display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;width:248px;
-      background:var(--dark);color:#cfd6dd;padding:22px 16px;z-index:120;gap:6px;}
-    .sn-brand{font-family:'Inter',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;
+      background:#060d1f;color:#cfd6dd;padding:22px 16px;z-index:120;gap:6px;border-right:1px solid rgba(30,81,212,.3);}
+    .sn-brand{font-family:'Oswald',sans-serif;font-weight:700;font-size:24px;letter-spacing:.06em;text-transform:uppercase;
       color:#fff;padding:6px 10px 4px;cursor:pointer;}
-    .sn-brand b{color:#63de8d;}
+    .sn-brand b{color:var(--fb-gld);}
     .sn-sub{font-size:11px;color:#7f8a94;padding:0 10px 18px;letter-spacing:.04em;}
     .sn-item{display:flex;align-items:center;gap:12px;width:100%;background:none;border:none;cursor:pointer;
       color:#cfd6dd;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;text-align:left;
       padding:11px 12px;border-radius:12px;transition:background .15s,color .15s;}
     .sn-item .sn-ic{font-size:17px;width:20px;text-align:center;}
     .sn-item:hover{background:rgba(255,255,255,.06);color:#fff;}
-    .sn-item.active{background:var(--green);color:#fff;}
+    .sn-item.active{background:var(--fb-blue);color:#fff;box-shadow:0 2px 12px rgba(30,81,212,.4);}
     .sn-spacer{flex:1;}
     .sn-login{margin-top:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
       color:#fff;border-radius:12px;padding:11px 12px;font-size:13px;font-weight:700;cursor:pointer;
@@ -97,7 +110,7 @@
     /* dashboard layout */
     #screen-dash.active{display:block;}
     .dash-head{display:flex;align-items:center;justify-content:space-between;padding:26px 0 18px;}
-    .dash-h1{font-size:28px;font-weight:800;letter-spacing:-.02em;}
+    .dash-h1{font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
     .dash-h1 span{color:var(--green-d);}
     .seg{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:9999px;padding:4px;gap:2px;box-shadow:var(--card-shadow);}
     .seg button{border:none;background:none;cursor:pointer;font-family:'Inter';font-size:13px;font-weight:700;
@@ -107,14 +120,22 @@
     .dash-rail{display:flex;flex-direction:column;gap:24px;}
     .panel-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;
       box-shadow:var(--card-shadow);padding:18px 20px;}
-    .panel-card h3{font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
-      color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+    .panel-card h3{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--fb-blue);margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:2px solid var(--fb-blue);}
     /* featured hero */
     .feat{color:#fff;border-radius:24px;overflow:hidden;
       position:relative;padding:26px 28px;margin-bottom:24px;box-shadow:var(--card-shadow);
       background-size:cover;background-position:center 30%;background-color:#0a1a22;}
     .feat-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,20,15,.55) 0%,rgba(5,15,30,.88) 100%);pointer-events:none;z-index:0;}
     .feat>*:not(.feat-overlay){position:relative;z-index:1;}
+    .feat-single{display:block;}
+    .feat-multi{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    .feat-match-block{padding:4px 8px;cursor:pointer;transition:background .15s;}
+    .feat-match-block:hover{background:rgba(255,255,255,.06);}
+    .feat-divider{width:1px;background:rgba(255,255,255,.2);align-self:stretch;margin:8px 0;}
+    .feat-logo-svg{width:52px;height:52px;flex-shrink:0;}
+    .feat-logo-svg svg{width:52px;height:52px;display:block;}
+    .feat-logo-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.3);flex-shrink:0;}
     .feat-tag{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:#fff;
       font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:9999px;}
     .feat-tag.up{background:rgba(255,255,255,.18);}
@@ -148,12 +169,12 @@
   .topbar{background:var(--surface);color:var(--ink);box-shadow:0 1px 0 var(--line);
     display:flex;align-items:center;justify-content:space-between;
     padding:0 16px;height:56px;position:sticky;top:0;z-index:100;}
-  .brand{font-family:'Inter',sans-serif;font-weight:800;font-size:20px;
-    letter-spacing:-.01em;color:var(--green);}
-  .brand span{font-weight:800;color:var(--green);}
+  .brand{font-family:'Oswald',sans-serif;font-weight:700;font-size:22px;
+    letter-spacing:.03em;text-transform:uppercase;color:var(--green);}
+  .brand span{font-weight:400;color:var(--muted);}
   .admin-chip{background:var(--surface2);border:1px solid var(--line);color:var(--ink);
-    font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
-    padding:7px 14px;border-radius:var(--pill);cursor:pointer;min-width:38px;}
+    font-family:'Oswald',sans-serif;font-size:13px;font-weight:500;letter-spacing:.05em;
+    padding:7px 14px;border-radius:var(--pill);cursor:pointer;min-width:38px;text-transform:uppercase;}
   .admin-chip.on{background:var(--green);border-color:var(--green);color:#fff;}
 
   .screen{display:none;}
@@ -161,32 +182,32 @@
 
   /* HERO */
   .hero{padding:20px 16px 8px;}
-  .hero-title{font-family:'Inter',sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.05;}
+  .hero-title{font-family:'Oswald',sans-serif;font-size:34px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;line-height:1.0;}
   .hero-title b{color:var(--green);}
   .hero-sub{color:var(--muted);font-size:13px;margin-top:2px;display:flex;align-items:center;gap:6px;}
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 1.4s infinite;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--fb-red);display:inline-block;animation:pulse 1.4s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
   /* TABS */
   .tabbar{display:flex;gap:6px;padding:10px 16px 4px;position:sticky;top:54px;background:var(--bg);z-index:40;}
-  .tabbtn{flex:1;padding:9px 4px;font-size:13px;font-weight:700;border-radius:10px;border:none;cursor:pointer;
+  .tabbtn{flex:1;padding:9px 4px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border-radius:10px;border:none;cursor:pointer;
     background:var(--surface);color:var(--muted);box-shadow:0 1px 2px rgba(0,0,0,.04);transition:.15s;}
-  .tabbtn.active{background:var(--green);color:#fff;}
+  .tabbtn.active{background:var(--fb-blue);color:#fff;}
 
   .list-body{padding:8px 16px 40px;}
-  .sec-label{font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);
+  .sec-label{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
     margin:18px 4px 8px;display:flex;align-items:center;gap:8px;}
   .sec-label::after{content:'';flex:1;height:1px;background:var(--line);}
-  .sec-label.ko{color:var(--orange);}
+  .sec-label.ko{color:var(--fb-org);}
 
   /* FIXTURE ROW */
   .fixture{background:var(--surface);border-radius:14px;padding:11px 14px;margin-bottom:10px;cursor:pointer;
     box-shadow:0 1px 3px rgba(20,30,45,.06);transition:transform .08s,box-shadow .15s;}
   .fixture:active{transform:scale(.99);}
   .fx-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-  .fx-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:var(--green);letter-spacing:.5px;}
+  .fx-live{display:inline-flex;align-items:center;gap:5px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;color:var(--fb-red);letter-spacing:.08em;text-transform:uppercase;}
   .fx-live b{font-family:'Archivo Narrow';font-variant-numeric:tabular-nums;}
-  .fx-ft{font-size:11px;font-weight:800;color:var(--muted);background:var(--surface2);padding:2px 8px;border-radius:5px;letter-spacing:.5px;}
+  .fx-ft{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:#1a6a00;background:#e6fae0;padding:2px 8px;border-radius:5px;letter-spacing:.06em;text-transform:uppercase;}
   .fx-up{font-size:11px;font-weight:700;color:var(--muted);}
   .fx-field{font-size:10px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:5px;}
   .fx-row{display:flex;align-items:center;gap:8px;}
@@ -195,7 +216,7 @@
   .fx-crest{width:30px;height:30px;flex-shrink:0;}
   .fx-crest svg{width:100%;height:100%;display:block;}
   .fx-name{font-size:13.5px;font-weight:600;line-height:1.15;overflow:hidden;}
-  .fx-score{font-family:'Archivo Narrow',monospace;font-weight:800;font-size:24px;flex-shrink:0;display:flex;gap:6px;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .fx-score{font-family:'Oswald',monospace;font-weight:700;font-size:26px;flex-shrink:0;display:flex;gap:6px;font-variant-numeric:tabular-nums;color:var(--ink);}
   .fx-score span{color:var(--muted);font-weight:600;}
   .fx-time{font-family:'Inter',sans-serif;font-weight:700;font-size:12px;color:var(--orange);flex-shrink:0;min-width:42px;text-align:center;letter-spacing:.05em;}
 
@@ -211,7 +232,7 @@
   .tbl .pos{color:var(--muted);width:20px;}
   .tbl tr.q td.pos{color:var(--green);font-weight:800;}
   .tbl tr.q td.l{box-shadow:inset 3px 0 0 var(--green);}
-  .tbl .pts{font-family:'Archivo Narrow',sans-serif;font-weight:700;color:var(--ink);}
+  .tbl .pts{font-family:'Oswald',sans-serif;font-weight:700;color:var(--fb-gld);}
   .q-note{font-size:11px;color:var(--muted);padding:8px 10px 4px;}
   .sc-rank{font-family:'Inter',sans-serif;font-weight:700;font-size:11px;width:34px;color:var(--muted);}
   .sc-goals{font-family:'Archivo Narrow',sans-serif;font-weight:700;font-size:18px;color:var(--green-d);width:46px;}
@@ -369,7 +390,31 @@
   /* REARRANGE / SCHEDULE EDITOR */
   .rr-setlabel{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin:16px 2px 8px;}
   .rr-row{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1.5px solid var(--line);border-radius:11px;padding:8px 10px;margin-bottom:7px;}
-  .rr-row.moved{border-color:var(--orange);background:rgba(244,123,32,.06);}
+  .rr-row.moved{border-color:var(--fb-org);background:rgba(255,94,0,.05);}
+  /* New full editor */
+  .rr2-row{background:var(--surface2);border:1.5px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;transition:border-color .15s,opacity .15s;}
+  .rr2-row.rr2-deleted{opacity:.4;border-color:var(--red)!important;border-style:dashed;}
+  .rr2-row.rr2-swapped{border-color:var(--fb-org);background:rgba(255,94,0,.07);}
+  .rr2-row-top{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .rr2-row-bot{display:flex;align-items:center;gap:6px;}
+  .rr2-no-wrap{display:flex;align-items:center;gap:2px;flex-shrink:0;}
+  .rr2-no-lbl{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.05em;}
+  .rr2-no{width:42px;border:1px solid var(--line);border-radius:7px;padding:5px 6px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:700;background:var(--surface);color:var(--fb-blue);text-align:center;}
+  .rr2-home,.rr2-away{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:5px 6px;font-size:12px;background:var(--surface);color:var(--ink);}
+  .rr2-vs{font-size:10px;font-weight:800;color:var(--muted);flex-shrink:0;padding:0 2px;}
+  .rr2-time{flex:1;border:1px solid var(--line);border-radius:7px;padding:5px 8px;font-size:13px;background:var(--surface);color:var(--ink);min-width:0;}
+  .rr2-field{border:1px solid var(--line);border-radius:7px;padding:5px 6px;font-size:12px;background:var(--surface);color:var(--ink);flex-shrink:0;}
+  .rr2-del-btn{background:none;border:none;font-size:16px;cursor:pointer;color:var(--red);padding:4px;flex-shrink:0;border-radius:6px;}
+  .rr2-del-btn:active{background:rgba(186,26,26,.1);}
+  .rr2-swap-box{background:rgba(30,81,212,.07);border:1.5px solid var(--fb-blue);border-radius:12px;padding:12px;margin-bottom:14px;}
+  .rr2-swap-label{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fb-blue);margin-bottom:8px;}
+  .rr2-swap-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .rr2-swap-row span{font-size:13px;color:var(--muted);}
+  .rr2-swap-in{width:64px;border:1px solid var(--line);border-radius:7px;padding:7px 8px;font-size:14px;font-weight:700;background:var(--surface);color:var(--ink);text-align:center;}
+  .rr2-swap-btn{background:var(--fb-blue);color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.05em;}
+  .rr-timehead{font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fb-blue);background:rgba(30,81,212,.07);border-left:3px solid var(--fb-blue);padding:6px 10px;margin:12px 0 6px;border-radius:0 8px 8px 0;}
+  .rr-grouptag{font-size:10px;color:var(--muted);margin-top:2px;}
+  .rr-info{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--fb-org);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink);line-height:1.5;margin-bottom:14px;}
   .rr-arrows{display:flex;flex-direction:column;gap:3px;}
   .rr-arrows button{width:30px;height:22px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;font-size:11px;font-weight:800;cursor:pointer;line-height:1;padding:0;}
   .rr-arrows button:disabled{opacity:.3;cursor:default;}
@@ -392,6 +437,9 @@
   .rr-logitem .rr-logmeta{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.4px;margin-bottom:4px;}
   .fx-delay{background:#fff8e1;border:1px solid #f59e0b;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;color:#92400e;margin-top:8px;}
   .fixture.fx-delayed{border-color:#f59e0b!important;box-shadow:0 0 0 1.5px #f59e0b22;}
+  .fx-grand-final{border-color:var(--fb-gld)!important;border-width:2px!important;box-shadow:0 4px 24px rgba(255,215,0,.22)!important;}
+  .fx-gf-banner{background:linear-gradient(90deg,#b8860b,#ffd700,#b8860b);color:#1a1000;font-family:'Oswald',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-align:center;padding:5px 10px;border-radius:8px 8px 0 0;margin:-11px -11px 10px;text-transform:uppercase;}
+  @media(prefers-color-scheme:dark){.fx-delay{background:rgba(245,158,11,.1);color:#fcd34d;border-color:#f59e0b;}}
   .rr-note-input{width:100%;background:var(--surface2);border:1.5px solid var(--line);color:var(--ink);border-radius:10px;padding:11px;font-family:'Inter';font-size:14px;outline:none;resize:vertical;min-height:64px;}
   .rr-note-input:focus{border-color:var(--green);}
   /* SQUAD NUMBER EDITOR */
@@ -418,15 +466,15 @@
   .upnext-lbl{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
   .upnext-card{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;cursor:pointer;box-shadow:var(--card-shadow);}
   .upnext-card:active{transform:scale(.99);}
-  .upnext-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
-  .upnext-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse-live 1.4s infinite;}
+  .upnext-tag{display:inline-flex;align-items:center;gap:6px;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fb-org);margin-bottom:10px;}
+  .upnext-tag .dot{width:7px;height:7px;border-radius:50%;background:var(--fb-red);animation:pulse-live 1.4s infinite;}
   .upnext-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;}
   .upnext-team{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;}
   .upnext-team .cr{font-size:28px;}
   .upnext-team .nm{font-family:'Archivo Narrow',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;line-height:1.2;}
   .upnext-ctr{text-align:center;}
-  .upnext-vs{font-family:'Archivo Narrow',sans-serif;font-size:24px;font-weight:800;color:var(--muted);}
-  .upnext-sc{font-family:'Archivo Narrow',sans-serif;font-size:36px;font-weight:900;line-height:1;}
+  .upnext-vs{font-family:'Oswald',sans-serif;font-size:24px;font-weight:700;color:var(--muted);letter-spacing:.06em;}
+  .upnext-sc{font-family:'Oswald',sans-serif;font-size:38px;font-weight:700;line-height:1;}
   .upnext-clock{font-size:12px;font-weight:700;color:var(--orange);margin-top:4px;}
   .upnext-time{font-size:12px;color:var(--muted);margin-top:4px;}
   .upnext-cta{margin-top:12px;text-align:center;}
@@ -449,7 +497,7 @@
   .home-stat-info{flex:1;min-width:0;}
   .home-stat-name{display:block;font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .home-stat-sub{display:block;font-size:11px;color:var(--muted);margin-top:1px;}
-  .home-stat-val{font-family:'Archivo Narrow',sans-serif;font-size:16px;font-weight:800;color:var(--green-d);flex-shrink:0;}
+  .home-stat-val{font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;color:var(--fb-gld);flex-shrink:0;}
   .home-stat-divider{height:1px;background:var(--line);margin:8px 0;}
   .menu-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px;cursor:pointer;text-align:left;width:100%;transition:transform .08s;}
   .menu-card:active{transform:scale(.985);}
@@ -465,7 +513,7 @@
   
   #screen-about .page-head, #screen-about .page-body{position:relative;z-index:1;}
   .page-back{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:16px;cursor:pointer;flex-shrink:0;}
-  .page-title{font-family:'Archivo Narrow',sans-serif;font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);}
+  .page-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink);}
   .page-body{padding:6px 16px 28px;}
   .info-card{background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;}
   .info-card h4{font-size:15px;font-weight:700;margin:0 0 6px;}
@@ -942,34 +990,35 @@ const data = {
     groupA: {
       teams: ['Japanese Football Hero & Friends','StarBang','Charmers FC','wira selatan','ROGUSE','GROfinity'],
       matches: [
-        { id:'m1',  no:1,  home:'Japanese Football Hero & Friends', away:'StarBang',       homeScore:null, awayScore:null, status:'upcoming', time:'11:00–11:15', field:'Field 1 (7v7)', events:[] },
-        { id:'m5',  no:5,  home:'Japanese Football Hero & Friends', away:'Charmers FC',    homeScore:null, awayScore:null, status:'upcoming', time:'11:40–11:55', field:'Field 1 (7v7)', events:[] },
-        { id:'m7',  no:7,  home:'wira selatan',                     away:'ROGUSE',         homeScore:null, awayScore:null, status:'upcoming', time:'12:00–12:15', field:'Field 1 (7v7)', events:[] },
-        { id:'m9',  no:9,  home:'Charmers FC',                      away:'GROfinity',      homeScore:null, awayScore:null, status:'upcoming', time:'12:20–12:35', field:'Field 1 (7v7)', events:[] },
-        { id:'m13', no:13, home:'Japanese Football Hero & Friends', away:'wira selatan',   homeScore:null, awayScore:null, status:'upcoming', time:'13:00–13:15', field:'Field 1 (7v7)', events:[] },
-        { id:'m14', no:14, home:'StarBang',                         away:'ROGUSE',         homeScore:null, awayScore:null, status:'upcoming', time:'13:20–13:35', field:'Field 1 (7v7)', events:[] },
-        { id:'m16', no:16, home:'wira selatan',                     away:'GROfinity',      homeScore:null, awayScore:null, status:'upcoming', time:'14:00–14:15', field:'Field 1 (7v7)', events:[] },
-        { id:'m17', no:17, home:'StarBang',                         away:'Charmers FC',    homeScore:null, awayScore:null, status:'upcoming', time:'14:20–14:35', field:'Field 1 (7v7)', events:[] },
+        { id:'a01', no:1,  home:'Japanese Football Hero & Friends', away:'StarBang',    homeScore:null, awayScore:null, status:'upcoming', time:'11:00–11:15', field:'Field 1 (7v7)', events:[] },
+        { id:'a03', no:3,  home:'Charmers FC',                      away:'GROfinity',   homeScore:null, awayScore:null, status:'upcoming', time:'11:20–11:35', field:'Field 1 (7v7)', events:[] },
+        { id:'a05', no:5,  home:'StarBang',                         away:'ROGUSE',      homeScore:null, awayScore:null, status:'upcoming', time:'11:40–11:55', field:'Field 1 (7v7)', events:[] },
+        { id:'a06', no:6,  home:'Japanese Football Hero & Friends', away:'wira selatan',homeScore:null, awayScore:null, status:'upcoming', time:'11:40–11:55', field:'Field 2 (6v6)', events:[] },
+        { id:'a10', no:10, home:'ROGUSE',                           away:'GROfinity',   homeScore:null, awayScore:null, status:'upcoming', time:'12:20–12:35', field:'Field 2 (6v6)', events:[] },
+        { id:'a12', no:12, home:'StarBang',                         away:'Charmers FC', homeScore:null, awayScore:null, status:'upcoming', time:'12:40–12:55', field:'Field 2 (6v6)', events:[] },
+        { id:'a14', no:14, home:'Japanese Football Hero & Friends', away:'Charmers FC', homeScore:null, awayScore:null, status:'upcoming', time:'13:20–13:35', field:'Field 1 (7v7)', events:[] },
+        { id:'a15', no:15, home:'wira selatan',                     away:'ROGUSE',      homeScore:null, awayScore:null, status:'upcoming', time:'13:40–13:55', field:'Field 1 (7v7)', events:[] },
+        { id:'a17', no:17, home:'wira selatan',                     away:'GROfinity',   homeScore:null, awayScore:null, status:'upcoming', time:'14:20–14:35', field:'Field 1 (7v7)', events:[] },
       ]
     },
     groupB: {
       teams: ['Muay Thai Soccer','Shao Lin FC','Star Tee','Psycho Pirate Operations','Sweet Potato FC','Misfits'],
       matches: [
-        { id:'m2',  no:2,  home:'Muay Thai Soccer',          away:'Shao Lin FC',            homeScore:null, awayScore:null, status:'upcoming', time:'11:00–11:15', field:'Field 2 (6v6)', events:[] },
-        { id:'m3',  no:3,  home:'Psycho Pirate Operations',  away:'Sweet Potato FC',        homeScore:null, awayScore:null, status:'upcoming', time:'11:20–11:35', field:'Field 1 (7v7)', events:[] },
-        { id:'m6',  no:6,  home:'Sweet Potato FC',           away:'Misfits',                homeScore:null, awayScore:null, status:'upcoming', time:'11:40–11:55', field:'Field 2 (6v6)', events:[] },
-        { id:'m8',  no:8,  home:'Shao Lin FC',               away:'Star Tee',               homeScore:null, awayScore:null, status:'upcoming', time:'12:00–12:15', field:'Field 2 (6v6)', events:[] },
-        { id:'m10', no:10, home:'Psycho Pirate Operations',  away:'Misfits',                homeScore:null, awayScore:null, status:'upcoming', time:'12:20–12:35', field:'Field 2 (6v6)', events:[] },
-        { id:'m11', no:11, home:'Shao Lin FC',               away:'Sweet Potato FC',        homeScore:null, awayScore:null, status:'upcoming', time:'12:40–12:55', field:'Field 1 (7v7)', events:[] },
-        { id:'m12', no:12, home:'Muay Thai Soccer',          away:'Star Tee',               homeScore:null, awayScore:null, status:'upcoming', time:'12:40–12:55', field:'Field 2 (6v6)', events:[] },
-        { id:'m15', no:15, home:'Muay Thai Soccer',          away:'Psycho Pirate Operations',homeScore:null,awayScore:null, status:'upcoming', time:'13:40–13:55', field:'Field 1 (7v7)', events:[] },
-        { id:'m18', no:18, home:'Star Tee',                  away:'Misfits',                homeScore:null, awayScore:null, status:'upcoming', time:'14:40–14:55', field:'Field 1 (7v7)', events:[] },
+        { id:'b02', no:2,  home:'Psycho Pirate Operations',  away:'Sweet Potato FC',         homeScore:null, awayScore:null, status:'upcoming', time:'11:00–11:15', field:'Field 2 (6v6)', events:[] },
+        { id:'b04', no:4,  home:'Muay Thai Soccer',          away:'Shao Lin FC',             homeScore:null, awayScore:null, status:'upcoming', time:'11:20–11:35', field:'Field 2 (6v6)', events:[] },
+        { id:'b07', no:7,  home:'Muay Thai Soccer',          away:'Psycho Pirate Operations',homeScore:null, awayScore:null, status:'upcoming', time:'12:00–12:15', field:'Field 1 (7v7)', events:[] },
+        { id:'b08', no:8,  home:'Star Tee',                  away:'Misfits',                 homeScore:null, awayScore:null, status:'upcoming', time:'12:00–12:15', field:'Field 2 (6v6)', events:[] },
+        { id:'b09', no:9,  home:'Shao Lin FC',               away:'Sweet Potato FC',         homeScore:null, awayScore:null, status:'upcoming', time:'12:20–12:35', field:'Field 1 (7v7)', events:[] },
+        { id:'b11', no:11, home:'Muay Thai Soccer',          away:'Star Tee',                homeScore:null, awayScore:null, status:'upcoming', time:'12:40–12:55', field:'Field 1 (7v7)', events:[] },
+        { id:'b13', no:13, home:'Sweet Potato FC',           away:'Misfits',                 homeScore:null, awayScore:null, status:'upcoming', time:'13:00–13:15', field:'Field 1 (7v7)', events:[] },
+        { id:'b16', no:16, home:'Psycho Pirate Operations',  away:'Misfits',                 homeScore:null, awayScore:null, status:'upcoming', time:'14:00–14:15', field:'Field 1 (7v7)', events:[] },
+        { id:'b18', no:18, home:'Shao Lin FC',               away:'Star Tee',                homeScore:null, awayScore:null, status:'upcoming', time:'14:40–14:55', field:'Field 1 (7v7)', events:[] },
       ]
     },
     knockout: [
-      { id:'msf1', round:'Semi-Final 1', label:'Group A Winner vs Group B Runner-up', home:'TBD', away:'TBD', homeScore:null, awayScore:null, status:'upcoming', time:'15:00–15:30', field:'Field 1 (7v7)', events:[] },
-      { id:'msf2', round:'Semi-Final 2', label:'Group B Winner vs Group A Runner-up', home:'TBD', away:'TBD', homeScore:null, awayScore:null, status:'upcoming', time:'15:35–16:05', field:'Field 1 (7v7)', events:[] },
-      { id:'mf1',  round:'Final',        label:'SF1 Winner vs SF2 Winner',             home:'TBD', away:'TBD', homeScore:null, awayScore:null, status:'upcoming', time:'16:10–16:40', field:'Field 1 (7v7)', events:[] },
+      { id:'ko19', no:19, round:'Semi-Final 1', home:'Group A Winner',  away:'Group B Runner-up', homeScore:null, awayScore:null, status:'upcoming', time:'15:00–15:30', field:'Field 1 (7v7)', events:[] },
+      { id:'ko20', no:20, round:'Semi-Final 2', home:'Group B Winner',  away:'Group A Runner-up', homeScore:null, awayScore:null, status:'upcoming', time:'15:35–16:05', field:'Field 1 (7v7)', events:[] },
+      { id:'ko21', no:21, round:'Grand Final',  home:'Semi Winner 1',   away:'Semi Winner 2',      homeScore:null, awayScore:null, status:'upcoming', time:'16:15–16:45', field:'Field 1 (7v7)', events:[] },
     ]
   },
   female: {
@@ -1058,7 +1107,7 @@ function matchMaxMinute(m) { return /semi|final/i.test(m.round||'') ? 30 : 15; }
 // ═══════════════════════════════════════════
 // PERSISTENCE  —  local drive (localStorage) + web drive (JSON export/import)
 // ═══════════════════════════════════════════
-const STORAGE_KEY = 'livescore_sportsday2026_v3';
+const STORAGE_KEY = 'livescore_sportsday2026_v4';
 
 // Pull only the editable, per-match fields so structure stays code-controlled.
 function serializeState() {
@@ -1443,6 +1492,7 @@ function switchTab(t){
 }
 function fixtureRow(m){
   const live=m.status==='live';
+  const gf=m.round==='Grand Final';
   const center=m.status==='upcoming'
     ? `<div class="fx-time">${m.time?m.time.split('\u2013')[0].trim():''}</div>`
     : `<div class="fx-score">${m.homeScore??0}<span>-</span>${m.awayScore??0}</div>`;
@@ -1450,7 +1500,9 @@ function fixtureRow(m){
     ? `<span class="fx-live"><span class="dot"></span>LIVE <b id="clock-${m.id}">${fmtClock(clockSeconds(m))}</b></span>`
     : m.status==='ft' ? `<span class="fx-ft">FULL TIME</span>` : `<span class="fx-up">${m.time||''}</span>`;
   const delayBanner = m.delayNote ? `<div class="fx-delay">&#9888; ${escHtml(m.delayNote)}</div>` : '';
-  return `<div class="fixture ${m.delayNote?'fx-delayed':''}" onclick="openMatch('${m.id}')">
+  const gfBanner = gf ? `<div class="fx-gf-banner">&#127942; GRAND FINAL</div>` : '';
+  return `<div class="fixture ${m.delayNote?'fx-delayed':''} ${gf?'fx-grand-final':''}" onclick="openMatch('${m.id}')">
+    ${gfBanner}
     <div class="fx-meta">${badge}${m.field?`<span class="fx-field">${m.field}</span>`:''}</div>
     <div class="fx-row">
       <div class="fx-team"><span class="fx-crest">${getLogo(m.home)}</span><span class="fx-name">${m.home}</span></div>
@@ -1787,20 +1839,52 @@ function renderUpNext(){
   }
   el.innerHTML=html;
 }
+function pickFeaturedAll(ms){
+  // All live matches
+  var lives=ms.filter(function(m){return m.status==='live';});
+  if(lives.length) return lives;
+  // All upcoming matches sharing the same earliest start time
+  var ups=ms.filter(function(m){return m.status==='upcoming';});
+  if(ups.length){
+    var t=ups[0].time||'';
+    return ups.filter(function(m){return (m.time||'')===t;});
+  }
+  // Fall back to last FT match
+  var fts=ms.filter(function(m){return m.status==='ft';});
+  if(fts.length) return [fts[fts.length-1]];
+  return ms.length?[ms[0]]:[];
+}
 function featuredCard(m){
   if(!m) return '<div class="feat"><div class="feat-tag up">No matches yet</div></div>';
-  var live=m.status==='live';
-  var tag=live?'<span class="feat-tag"><span class="dot"></span>LIVE</span>'
-    :m.status==='ft'?'<span class="feat-tag up">FULL TIME</span>':'<span class="feat-tag up">UP NEXT</span>';
-  var score=(m.status==='upcoming')
-    ? '<div class="feat-score">vs<small>'+(escHtml(m.time||''))+'</small></div>'
-    : '<div class="feat-score">'+(m.homeScore!=null?m.homeScore:0)+' - '+(m.awayScore!=null?m.awayScore:0)+'<small>'+(live?fmtClock(clockSeconds(m))+"'":(m.status==='ft'?'Full time':''))+'</small></div>';
+  return featuredCards([m]);
+}
+function featuredCards(matches){
+  if(!matches||!matches.length) return '<div class="feat"><div class="feat-tag up">No matches yet</div></div>';
   var posterEl=document.getElementById('dash-poster');
   var bgStyle=posterEl&&posterEl.src?'background-image:url('+posterEl.src+');':'';
-  return '<div class="feat" style="'+bgStyle+'"><div class="feat-overlay"></div>'+tag+'<div class="feat-meta">'+(m.field?escHtml(m.field):'')+'</div>'+
-    '<div class="feat-grid"><div class="feat-team"><span class="cr">'+getLogo(m.home)+'</span><span class="nm">'+escHtml(m.home)+'</span></div>'+
-    score+'<div class="feat-team"><span class="cr">'+getLogo(m.away)+'</span><span class="nm">'+escHtml(m.away)+'</span></div></div>'+
-    '<div class="feat-cta"><button onclick="openMatch(\''+m.id+'\')">Match centre</button><button class="ghost" onclick="goMatches()">All fixtures</button></div></div>';
+  function oneMatch(m){
+    var live=m.status==='live';
+    var tag=live?'<span class="feat-tag"><span class="dot"></span>LIVE</span>'
+      :m.status==='ft'?'<span class="feat-tag up">FULL TIME</span>':'<span class="feat-tag up">UP NEXT</span>';
+    var score=(m.status==='upcoming')
+      ? '<div class="feat-score">vs<small>'+(escHtml(m.time||''))+'</small></div>'
+      : '<div class="feat-score">'+(m.homeScore!=null?m.homeScore:0)+' - '+(m.awayScore!=null?m.awayScore:0)+'<small>'+(live?fmtClock(clockSeconds(m))+"'":(m.status==='ft'?'Full time':''))+'</small></div>';
+    var homeL=getLogo(m.home);var awayL=getLogo(m.away);
+    function av(l){return l.startsWith('<svg')?'<div class="feat-logo-svg">'+l+'</div>':l.startsWith('data:')||l.startsWith('http')?'<img src="'+l+'" class="feat-logo-img">':'<span class="cr">'+l+'</span>';}
+    return '<div class="feat-match-block" onclick="openMatch(\''+m.id+'\')">'+
+      tag+'<div class="feat-meta">'+(m.field?escHtml(m.field):'')+'</div>'+
+      '<div class="feat-grid">'+
+        '<div class="feat-team">'+av(homeL)+'<span class="nm">'+escHtml(m.home)+'</span></div>'+
+        score+
+        '<div class="feat-team">'+av(awayL)+'<span class="nm">'+escHtml(m.away)+'</span></div>'+
+      '</div></div>';
+  }
+  var multi=matches.length>1;
+  return '<div class="feat" style="'+bgStyle+'"><div class="feat-overlay"></div>'+
+    '<div class="'+(multi?'feat-multi':'feat-single')+'">'+
+      matches.map(oneMatch).join(multi?'<div class="feat-divider"></div>':'')+
+    '</div>'+
+    '<div class="feat-cta"><button onclick="goMatches()">All fixtures</button></div></div>';
 }
 function railAgenda(){
   var ag=(eventInfo.agenda||[]).filter(function(a){return !a.header;}).slice(0,6);
@@ -1815,7 +1899,7 @@ function renderDashboard(){
   var dball=div==='male'?[].concat(data.male.groupA.matches,data.male.groupB.matches,data.male.knockout)
                         :[].concat(data.female.group.matches,data.female.knockout);
   var everything=[].concat(data.male.groupA.matches,data.male.groupB.matches,data.male.knockout,data.female.group.matches,data.female.knockout);
-  var feat=pickFeatured(everything);
+  var feats=pickFeaturedAll(everything);
   var fixturesHtml=div==='male'
     ? fixturesBlock('Group A',data.male.groupA.matches)+fixturesBlock('Group B',data.male.groupB.matches)+fixturesBlock('Knockouts',data.male.knockout,true)
     : fixturesBlock('Group stage',data.female.group.matches)+fixturesBlock('Final',data.female.knockout,true);
@@ -1824,7 +1908,7 @@ function renderDashboard(){
       '<div class="panel-card"><h3>&#127942; Group B table</h3>'+standTable(data.male.groupB.teams,data.male.groupB.matches)+'</div>'
     : '<div class="panel-card"><h3>&#127942; Standings</h3>'+standTable(data.female.group.teams,data.female.group.matches)+'</div>';
   var scorers='<div class="panel-card"><h3>&#9917; Top scorers</h3>'+scorersTable(dball)+'</div>';
-  body.innerHTML=featuredCard(feat)+
+  body.innerHTML=featuredCards(feats)+
     '<div class="dash-grid"><div><div class="panel-card"><h3>&#128197; Fixtures</h3><div class="dash-fixtures">'+fixturesHtml+'</div></div></div>'+
     '<div class="dash-rail">'+tables+scorers+railAgenda()+'</div></div>';
 }
@@ -2640,147 +2724,160 @@ function confirmDelay(){
   renderRearrange();
 }
 
-function renderRearrange(){
-  if(!swapEditor) return;
-  const FIELD_PRESETS = [
-    { label:'Field 1 · 7v7', value:'Field 1 (7v7)' },
-    { label:'Field 2 · 6v6', value:'Field 2 (6v6)' },
-  ];
-  let html = `<div class="save-state" style="text-align:left;margin:0 0 12px">Slide ▲▼ to swap match slots. Edit time, or set the pitch (Field 1 = 7v7, Field 2 = 6v6) — the lineup auto-adjusts. Nothing saves until you confirm.</div>`;
-  swapEditor.sets.forEach(es => {
-    html += `<div class="rr-setlabel">${es.label}</div>`;
-    es.order.forEach((id, i) => {
-      const mu = swapEditor.mu[id];
-      const fieldChanged = es.slots[i].field !== es.origSlots[i].field;
-      const moved = es.origOrder[i] !== id || es.origSlots[i].time !== es.slots[i].time || fieldChanged;
-      const curVal = es.slots[i].field || '';
-      const known = FIELD_PRESETS.some(p=>p.value===curVal);
-      const opts = (known?'':`<option value="${escHtml(curVal)}" selected>${escHtml(curVal)||'—'}</option>`) +
-        FIELD_PRESETS.map(p=>`<option value="${p.value}" ${curVal===p.value?'selected':''}>${p.label}</option>`).join('');
-      html += `<div class="rr-row ${moved?'moved':''}">
-        <div class="rr-arrows">
-          <button onclick="swapMove('${es.key}',${i},-1)" ${i===0?'disabled':''}>\u25B2</button>
-          <button onclick="swapMove('${es.key}',${i},1)" ${i===es.order.length-1?'disabled':''}>\u25BC</button>
-        </div>
-        <div class="rr-main">
-          <div class="rr-no">${escHtml(slotName(es,i))}</div>
-          <div class="rr-teams">${escHtml(mu.home)} <span style="color:var(--muted)">v</span> ${escHtml(mu.away)}</div>
-        </div>
-        <input class="rr-time" value="${escHtml(es.slots[i].time||'')}" onchange="swapTime('${es.key}',${i},this.value)" placeholder="Time">
-        <select class="rr-field ${fieldChanged?'changed':''}" onchange="swapField('${es.key}',${i},this.value)">${opts}</select>
-      </div>`;
-    });
+function openRearrange(){
+  const div=adminSession;
+  const sets=namedMatchSets().filter(s=>s.division===div);
+  const allTeams=teamsForDivision(div);
+  // Flat rows sorted by time
+  const rows=[];
+  sets.forEach(s=>s.arr.forEach(m=>rows.push({m, setKey:s.key})));
+  rows.sort((a,b)=>(a.m.time||'').localeCompare(b.m.time||''));
+  renderMatchEditor(rows, allTeams);
+}
+
+function renderMatchEditor(rows, allTeams){
+  const FIELDS=[{l:'Field 1 · 7v7',v:'Field 1 (7v7)'},{l:'Field 2 · 6v6',v:'Field 2 (6v6)'}];
+  function teamOpts(selected){
+    return allTeams.map(t=>`<option value="${escHtml(t)}" ${t===selected?'selected':''}>${escHtml(t)}</option>`).join('');
+  }
+  function fieldOpts(cur){
+    const known=FIELDS.some(f=>f.v===cur);
+    return (known?'':`<option value="${escHtml(cur)}" selected>${escHtml(cur)||'—'}</option>`)+
+      FIELDS.map(f=>`<option value="${f.v}" ${f.v===cur?'selected':''}>${f.l}</option>`).join('');
+  }
+  let html=`
+    <div class="rr2-swap-box">
+      <div class="rr2-swap-label">⇄ Swap time+field</div>
+      <div class="rr2-swap-row">
+        <span>Match #</span>
+        <input id="sw-a" type="number" class="rr2-swap-in" placeholder="e.g. 1" min="1">
+        <span>↔</span>
+        <input id="sw-b" type="number" class="rr2-swap-in" placeholder="e.g. 5" min="1">
+        <button class="rr2-swap-btn" onclick="rr2SwapTimes()">Swap</button>
+      </div>
+    </div>`;
+  rows.forEach(({m})=>{
+    html+=`<div class="rr2-row" data-id="${m.id}">
+      <div class="rr2-row-top">
+        <div class="rr2-no-wrap"><span class="rr2-no-lbl">#</span><input class="rr2-no" type="number" value="${m.no||''}" min="1" max="99" title="Match number"></div>
+        <select class="rr2-home">${teamOpts(m.home)}</select>
+        <span class="rr2-vs">vs</span>
+        <select class="rr2-away">${teamOpts(m.away)}</select>
+      </div>
+      <div class="rr2-row-bot">
+        <input class="rr2-time" value="${escHtml(m.time||'')}" placeholder="11:00–11:15">
+        <select class="rr2-field">${fieldOpts(m.field||'')}</select>
+        <button class="rr2-del-btn" onclick="rr2ToggleDel('${m.id}')" title="Delete match">🗑</button>
+      </div>
+    </div>`;
   });
-  const dirty = rearrangeDirty();
-  html += dirty ? `<div class="rr-pending">\u25CF You have unsaved changes</div>` : '';
-  html += `<button class="btn-primary" ${dirty?'':'disabled style="opacity:.5"'} onclick="reviewRearrange()">Review & apply</button>`;
-  html += `<button class="btn-secondary" onclick="openAddMatch()">&#43; Add match</button>`;
-  html += `<button class="btn-secondary" onclick="openDelayAnnounce()">&#128226; Announce delay</button>`;
-  html += `<button class="btn-secondary" onclick="openScheduleLog()">&#128220; Change log${scheduleLog.length?' ('+scheduleLog.length+')':''}</button>`;
-  html += `<button class="btn-secondary" onclick="openAdminMenu()">\u2190 Back</button>`;
+  html+=`<div style="height:8px"></div>`;
+  html+=`<button class="btn-primary" onclick="applyMatchEdits()">✓ Apply all changes</button>`;
+  html+=`<button class="btn-secondary" onclick="openAddMatch()">＋ Add match</button>`;
+  html+=`<button class="btn-secondary" onclick="openDelayAnnounce()">📢 Announce delay</button>`;
+  html+=`<button class="btn-secondary" onclick="openScheduleLog()">📋 Change log${scheduleLog.length?' ('+scheduleLog.length+')':''}</button>`;
+  html+=`<button class="btn-secondary" onclick="openAdminMenu()">← Back</button>`;
   openSheet('Rearrange schedule', html);
 }
 
-function swapMove(key, i, dir){
-  const es = swapEditor.sets.find(s => s.key === key);
-  const j = i + dir;
-  if (j < 0 || j >= es.order.length) return;
-  [es.order[i], es.order[j]] = [es.order[j], es.order[i]];  // matchups swap slots; slots stay pinned
-  renderRearrange();
+function rr2ToggleDel(id){
+  const row=document.querySelector(`.rr2-row[data-id="${id}"]`);
+  if(!row) return;
+  const del=row.classList.toggle('rr2-deleted');
+  row.querySelector('.rr2-del-btn').textContent=del?'↩ Undo':'🗑';
 }
 
-function swapTime(key, i, val){
-  const es = swapEditor.sets.find(s => s.key === key);
-  es.slots[i].time = val.trim();
-  renderRearrange();
+function rr2SwapTimes(){
+  const na=parseInt((document.getElementById('sw-a')||{}).value);
+  const nb=parseInt((document.getElementById('sw-b')||{}).value);
+  if(!na||!nb||na===nb){ showToast('Enter two different match numbers'); return; }
+  const rows=[...document.querySelectorAll('.rr2-row:not(.rr2-deleted)')];
+  const rowA=rows.find(r=>parseInt(r.querySelector('.rr2-no').value)===na);
+  const rowB=rows.find(r=>parseInt(r.querySelector('.rr2-no').value)===nb);
+  if(!rowA){ showToast('Match #'+na+' not found'); return; }
+  if(!rowB){ showToast('Match #'+nb+' not found'); return; }
+  const tA=rowA.querySelector('.rr2-time'); const tB=rowB.querySelector('.rr2-time');
+  const fA=rowA.querySelector('.rr2-field'); const fB=rowB.querySelector('.rr2-field');
+  [tA.value,tB.value]=[tB.value,tA.value];
+  [fA.value,fB.value]=[fB.value,fA.value];
+  // Visual flash
+  [rowA,rowB].forEach(r=>{ r.classList.add('rr2-swapped'); setTimeout(()=>r.classList.remove('rr2-swapped'),1200); });
+  showToast('Swapped #'+na+' ↔ #'+nb);
 }
 
-function fieldFormat(field){
-  const m=String(field||'').match(/(\d+)\s*v\s*(\d+)/i);
-  return m ? (m[1]+'v'+m[2]) : '7v7';
-}
-function swapField(key, i, val){
-  const es = swapEditor.sets.find(s => s.key === key);
-  es.slots[i].field = val;   // value is the full field string, e.g. "Field 2 (6v6)"
-  renderRearrange();
-}
+function applyMatchEdits(){
+  const rows=[...document.querySelectorAll('.rr2-row')];
+  const toDelete=new Set();
+  const edits=[];
+  let errors=[];
 
-function rearrangeDirty(){
-  return swapEditor.sets.some(es =>
-    es.order.some((id,i) => id !== es.origOrder[i]) ||
-    es.slots.some((sl,i) => sl.time !== es.origSlots[i].time || sl.field !== es.origSlots[i].field)
-  );
-}
+  rows.forEach(row=>{
+    const id=row.dataset.id;
+    if(row.classList.contains('rr2-deleted')){ toDelete.add(id); return; }
+    const no=parseInt(row.querySelector('.rr2-no').value)||0;
+    const home=(row.querySelector('.rr2-home').value||'').trim();
+    const away=(row.querySelector('.rr2-away').value||'').trim();
+    const time=(row.querySelector('.rr2-time').value||'').trim();
+    const field=row.querySelector('.rr2-field').value||'';
+    if(home===away) errors.push('#'+no+': home = away ('+escHtml(home)+')');
+    edits.push({id, no, home, away, time, field});
+  });
 
-// Per-matchup diff: where did each match start vs where does it end up?
-function rearrangeChanges(){
-  const out = [];
-  swapEditor.sets.forEach(es => {
-    es.order.forEach((id, i) => {
-      const origPos = es.origOrder.indexOf(id);
-      const oldTime  = es.origSlots[origPos]?.time,  newTime  = es.slots[i].time;
-      const oldField = es.origSlots[origPos]?.field, newField = es.slots[i].field;
-      if (oldTime !== newTime || oldField !== newField || origPos !== i) {
-        const mu = swapEditor.mu[id];
-        const fromParts = [oldTime, oldField].filter(Boolean).join(' · ');
-        const toParts   = [newTime, newField].filter(Boolean).join(' · ');
-        out.push({
-          label: (mu.round ? mu.round + ' \u2014 ' : '') + mu.home + ' v ' + mu.away,
-          from: fromParts || '—',
-          to:   toParts   || '—',
-        });
-      }
+  if(errors.length){ showToast('Error: '+errors[0]); return; }
+
+  // Build change summary for log
+  const changes=[];
+  edits.forEach(e=>{
+    const m=getMatchById(e.id); if(!m) return;
+    const parts=[];
+    if(m.no!==e.no) parts.push('# '+m.no+'→'+e.no);
+    if(m.home!==e.home) parts.push('home: '+m.home+'→'+e.home);
+    if(m.away!==e.away) parts.push('away: '+m.away+'→'+e.away);
+    if(m.time!==e.time) parts.push('time: '+(m.time||'?')+'→'+e.time);
+    if(m.field!==e.field) parts.push('field: '+(m.field||'?')+'→'+e.field);
+    if(parts.length) changes.push(e.home+' v '+e.away+': '+parts.join(', '));
+  });
+  if(toDelete.size) toDelete.forEach(id=>{ const m=getMatchById(id); if(m) changes.push('DELETED: '+m.home+' v '+m.away); });
+
+  // Apply edits
+  edits.forEach(e=>{
+    const m=getMatchById(e.id); if(!m) return;
+    m.no=e.no; m.home=e.home; m.away=e.away; m.time=e.time; m.field=e.field;
+    // Reset lineup if format changed
+    const want=starterCount(m);
+    ['home','away'].forEach(side=>{
+      const ln=m.lineup&&m.lineup[side];
+      if(ln&&Array.isArray(ln.starters)&&ln.starters.length!==want) m.lineup=null;
     });
   });
-  return out;
+
+  // Apply deletions — remove from each set's array
+  if(toDelete.size){
+    namedMatchSets().forEach(s=>{
+      const before=s.arr.length;
+      s.arr.splice(0,s.arr.length,...s.arr.filter(m=>!toDelete.has(m.id)));
+    });
+  }
+
+  if(changes.length) scheduleLog.unshift({at:Date.now(), by:adminSession, msg:changes.join(' | ')});
+  saveData(); renderAll();
+  showToast(changes.length?'Saved — '+changes.length+' change'+(changes.length>1?'s':''):'No changes to save');
+  openRearrange();
 }
 
+// Legacy stubs so existing references don't break
+function renderRearrange(){ openRearrange(); }
+function swapTime(){} function swapField(){} function swapMove(){}
+function rearrangeDirty(){ return false; }
+function rearrangeChanges(){ return []; }
+
 function reviewRearrange(){
-  const changes = rearrangeChanges();
-  if (!changes.length) { showToast('No changes to apply'); return; }
-  let html = `<div class="save-state" style="text-align:left;margin:0 0 12px">Confirm the schedule changes below. Add a short reason so the team has a record of why.</div>`;
-  html += `<div class="rr-diff">` + changes.map(c =>
-    `<div><b>${escHtml(c.label)}</b><br>${escHtml(c.from)} <span class="arrow">\u2192</span> ${escHtml(c.to)}</div>`
-  ).join('<div style="height:8px"></div>') + `</div>`;
-  html += `<div class="field"><label>Reason / note (optional)</label>
-    <textarea class="rr-note-input" id="swap-reason" placeholder="e.g. Team requested swap \u2014 player arriving late"></textarea></div>`;
-  html += `<button class="btn-primary" onclick="confirmRearrange()">Confirm changes</button>`;
-  html += `<button class="btn-secondary" onclick="renderRearrange()">\u2190 Keep editing</button>`;
-  openSheet('Confirm changes', html);
+  // Direct apply now — no separate review step needed
+  applyMatchEdits();
 }
 
 function confirmRearrange(){
-  const changes = rearrangeChanges();
-  const note = (document.getElementById('swap-reason')||{}).value || '';
-  // Apply working copy to live data: reorder each set, re-pin slot fields to position.
-  swapEditor.sets.forEach(es => {
-    const set = setByKey(es.key); if(!set) return;
-    const byId = {}; set.arr.forEach(m => byId[m.id] = m);
-    const newArr = es.order.map(id => byId[id]).filter(Boolean);
-    newArr.forEach((m, i) => {
-      m.time = es.slots[i].time;
-      if (es.slots[i].field !== undefined) m.field = es.slots[i].field;
-      if (es.slots[i].no !== undefined) m.no = es.slots[i].no;
-      // If the format (starter count) changed, drop the lineup so ensureLineup rebuilds to the new size
-      const want = starterCount(m);
-      ['home','away'].forEach(side=>{
-        const ln = m.lineup && m.lineup[side];
-        if (ln && Array.isArray(ln.starters) && ln.starters.length !== want) m.lineup = null;
-      });
-    });
-    set.arr.length = 0; newArr.forEach(m => set.arr.push(m));
-  });
-  scheduleLog.unshift({
-    at: Date.now(), by: adminSession,
-    note: note.trim(),
-    changes: changes.map(c => `${c.label}: ${c.from} → ${c.to}`)
-  });
-  if (scheduleLog.length > 50) scheduleLog.length = 50;
-  swapEditor = null;
-  saveData();
-  renderAll();
-  closeModal();
-  showToast('Schedule updated');
+  applyMatchEdits();
 }
 
 function openScheduleLog(){
